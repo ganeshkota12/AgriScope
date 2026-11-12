@@ -1,0 +1,39 @@
+AGRISCOPE - KAGGLE HISTORICAL EDA
+==================================================
+Total records: 911
+Districts: 13
+Year range: 1997-2014
+Duplicate records: 0
+
+Crop distribution:
+Crop
+Rice            481
+Dry chillies    430
+
+Season distribution:
+Season
+Rabi          450
+Kharif        435
+Whole Year     26
+
+Crop-wise yield summary:
+              Observations     Mean   Median  Standard_Deviation  Minimum  Maximum
+Crop                                                                              
+Dry chillies           430  2930.61  2759.85             1290.32    500.0  6740.04
+Rice                   481  2924.94  2916.74              821.16    813.6  5257.00
+
+Season-wise yield summary:
+                     Observations     Mean   Median  Standard_Deviation
+Crop         Season                                                    
+Dry chillies Kharif           201  3322.54  3345.99             1202.06
+             Rabi             216  2640.79  2111.24             1282.46
+Rice         Kharif           234  2679.38  2787.00              689.98
+             Rabi             234  3148.39  3144.09              873.44
+
+Interpretation notes:
+- Whole Year records are retained in overall analysis.
+- Only Kharif and Rabi are used for seasonal comparison.
+- Correlation indicates association, not causation.
+- Soil features represent modelled district-level estimates.
+- Verify the original yield source and units before presenting Yield_kg_ha as a confirmed unit.
+- Missing values are not automatically replaced with zero.

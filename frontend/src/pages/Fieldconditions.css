@@ -1,0 +1,558 @@
+/* Field Conditions page. Classes start with "fc-". */
+.fc-page {
+    --fc-ink: #182218;
+    --fc-muted: #5f6e62;
+    --fc-line: #e3eadf;
+    max-width: 1400px;
+    margin: 0 auto;
+    color: var(--fc-ink);
+    font-size: 14px;
+    line-height: 1.5;
+    display: grid;
+    gap: 14px;
+}
+
+.fc-page h1,
+.fc-page h2,
+.fc-page p {
+    margin: 0;
+}
+
+.fc-sr {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+}
+
+.fc-kicker {
+    color: #2f6b45;
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+}
+
+.fc-head h1 {
+    font-size: 24px;
+    font-weight: 750;
+    letter-spacing: -.4px;
+    margin-top: 4px;
+}
+
+.fc-filters {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr)) auto;
+    gap: 12px;
+    align-items: end;
+    background: #fff;
+    border: 1px solid var(--fc-line);
+    border-radius: 16px;
+    padding: 14px 16px;
+}
+
+.fc-field {
+    display: grid;
+    gap: 6px;
+    min-width: 0;
+}
+
+.fc-field span {
+    color: var(--fc-muted);
+    font-size: 12.5px;
+    font-weight: 650;
+}
+
+.fc-field select {
+    height: 42px;
+    border: 1px solid #d3dccd;
+    border-radius: 10px;
+    padding: 0 10px;
+    background: #fbfcfa;
+    font: inherit;
+    min-width: 0;
+}
+
+.fc-button {
+    height: 42px;
+    padding: 0 22px;
+    border: 0;
+    border-radius: 10px;
+    background: #1f4d32;
+    color: #fff;
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.fc-button:disabled {
+    opacity: .6;
+    cursor: wait;
+}
+
+.fc-message {
+    color: #9b2c1f;
+    font-weight: 600;
+}
+
+.fc-layout {
+    display: grid;
+    gap: 16px;
+    align-items: start;
+}
+
+.fc-main {
+    display: grid;
+    gap: 14px;
+    min-width: 0;
+}
+
+.fc-card {
+    background: #fff;
+    border: 1px solid var(--fc-line);
+    border-radius: 16px;
+    padding: 18px 20px;
+    box-shadow: 0 1px 2px rgba(24, 34, 24, .04);
+    display: grid;
+    gap: 12px;
+    min-width: 0;
+}
+
+.fc-card h2 {
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.fc-empty p,
+.fc-muted,
+.fc-legend {
+    color: var(--fc-muted);
+    font-size: 12.5px;
+}
+
+.fc-answer {
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.fc-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 10px;
+}
+
+.fc-stats>div {
+    border: 1px solid var(--fc-line);
+    border-radius: 12px;
+    padding: 10px 12px;
+    display: grid;
+    gap: 2px;
+}
+
+.fc-stats span {
+    color: var(--fc-muted);
+    font-size: 12px;
+    font-weight: 650;
+}
+
+.fc-stats b {
+    font-size: 18px;
+    font-weight: 750;
+}
+
+.fc-stats small {
+    color: var(--fc-muted);
+    font-size: 11.5px;
+}
+
+.fc-types {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+}
+
+.fc-type {
+    border-radius: 12px;
+    padding: 12px;
+    display: grid;
+    gap: 2px;
+    border-left: 4px solid #ccc;
+    background: #fbfcf8;
+}
+
+.fc-type-wet {
+    border-left-color: #2f6fa3;
+}
+
+.fc-type-dry {
+    border-left-color: #b9641e;
+}
+
+.fc-type-normal {
+    border-left-color: #43895b;
+}
+
+.fc-type span {
+    font-size: 12px;
+    font-weight: 650;
+    color: var(--fc-muted);
+}
+
+.fc-type b {
+    font-size: 17px;
+    font-weight: 750;
+}
+
+.fc-type small {
+    color: var(--fc-muted);
+    font-size: 11.5px;
+}
+
+.fc-chart {
+    min-width: 0;
+}
+
+.fc-compare {
+    display: grid;
+    grid-template-columns: minmax(150px, 230px) minmax(0, 1fr) 70px;
+    gap: 12px;
+    align-items: center;
+    font-size: 13.5px;
+}
+
+.fc-compare-track {
+    height: 12px;
+    border-radius: 999px;
+    background: #edf2ea;
+    overflow: hidden;
+    display: block;
+}
+
+.fc-compare-track i {
+    display: block;
+    height: 100%;
+    border-radius: 999px;
+}
+
+.fc-compare b {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+}
+
+.fc-compare-us i {
+    background: #1f4d32;
+}
+
+.fc-compare-us b {
+    color: #1f4d32;
+}
+
+.fc-compare-state i {
+    background: #9aa89c;
+}
+
+.fc-compare-top i {
+    background: #b9801e;
+}
+
+.fc-compare-top b {
+    color: #7f5510;
+}
+
+.fc-soil {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+}
+
+.fc-soil-card {
+    border: 1px solid var(--fc-line);
+    border-radius: 12px;
+    padding: 12px 14px;
+    display: grid;
+    gap: 4px;
+}
+
+.fc-soil-card>span {
+    color: var(--fc-muted);
+    font-size: 12.5px;
+    font-weight: 650;
+}
+
+.fc-soil-card b {
+    font-size: 20px;
+    font-weight: 750;
+}
+
+.fc-soil-card b small {
+    font-size: 12px;
+    color: var(--fc-muted);
+    font-weight: 600;
+}
+
+.fc-soil-card em {
+    font-style: normal;
+    font-weight: 700;
+    color: #2f6b45;
+}
+
+.fc-soil-card p {
+    font-size: 13px;
+}
+
+.fc-chat {
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    border: 1px solid var(--fc-line);
+    border-radius: 16px;
+    overflow: hidden;
+    min-height: 460px;
+}
+
+.fc-chat-head {
+    display: grid;
+    gap: 10px;
+    padding: 16px 16px 12px;
+    border-bottom: 1px solid var(--fc-line);
+}
+
+.fc-chat-head h2 {
+    font-size: 17px;
+    font-weight: 750;
+}
+
+.fc-chat-head p {
+    color: var(--fc-muted);
+    font-size: 12.5px;
+    margin-top: 2px;
+}
+
+.fc-actions {
+    display: grid;
+    gap: 8px;
+    padding: 12px 14px 0;
+}
+
+.fc-actions button {
+    min-height: 40px;
+    padding: 0 12px;
+    border: 1px solid #cfe0ca;
+    border-radius: 11px;
+    background: #e8f2e5;
+    color: #1f4d32;
+    font: inherit;
+    font-weight: 700;
+    text-align: left;
+    cursor: pointer;
+}
+
+.fc-actions button:disabled {
+    opacity: .5;
+    cursor: not-allowed;
+}
+
+.fc-chat-log {
+    flex: 1;
+    min-height: 220px;
+    overflow-y: auto;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background: #fbfcf9;
+}
+
+.fc-msg {
+    max-width: 94%;
+    padding: 9px 12px;
+    border-radius: 13px;
+    font-size: 13.5px;
+    overflow-wrap: anywhere;
+}
+
+.fc-msg p {
+    margin: 0;
+    white-space: pre-wrap;
+}
+
+.fc-msg-user {
+    align-self: flex-end;
+    background: #e5f0e2;
+}
+
+.fc-msg-assistant {
+    align-self: flex-start;
+    background: #fff;
+    border: 1px solid #e3e9df;
+}
+
+.fc-msg-error {
+    border-color: #f0cdc6;
+    background: #fdf3f1;
+    color: #6f2117;
+}
+
+.fc-typing {
+    color: var(--fc-muted);
+}
+
+.fc-composer {
+    display: flex;
+    gap: 8px;
+    padding: 10px 12px;
+    border-top: 1px solid var(--fc-line);
+}
+
+.fc-composer input {
+    flex: 1;
+    min-width: 0;
+    height: 40px;
+    padding: 0 11px;
+    border: 1px solid #d3dccd;
+    border-radius: 10px;
+    font: inherit;
+    font-size: 14px;
+}
+
+.fc-composer button {
+    height: 40px;
+    padding: 0 14px;
+    border: 0;
+    border-radius: 10px;
+    background: #1f4d32;
+    color: #fff;
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.fc-composer button:disabled {
+    opacity: .45;
+    cursor: not-allowed;
+}
+
+@media (min-width: 1100px) {
+    .fc-layout {
+        grid-template-columns: minmax(0, 1fr) 360px;
+    }
+
+    .fc-chat {
+        position: sticky;
+        top: 88px;
+        height: calc(100vh - 210px);
+        min-height: 480px;
+    }
+}
+
+@media (max-width: 900px) {
+    .fc-filters {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .fc-types {
+        grid-template-columns: 1fr;
+    }
+
+    .fc-compare {
+        grid-template-columns: minmax(0, 1fr) 70px;
+    }
+
+    .fc-compare-track {
+        grid-column: 1 / -1;
+        grid-row: 2;
+    }
+}
+
+/* Second version: clearer labels, year-by-year toggle, highlights and a recent-years table. */
+.fc-card-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.fc-toggle {
+    display: inline-flex;
+    border: 1px solid #d3dccd;
+    border-radius: 10px;
+    padding: 3px;
+    background: #f4f7f1;
+}
+
+.fc-toggle button {
+    border: 0;
+    background: transparent;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font: inherit;
+    font-size: 13px;
+    font-weight: 650;
+    color: var(--fc-muted);
+    cursor: pointer;
+}
+
+.fc-toggle button[aria-pressed="true"] {
+    background: #fff;
+    color: var(--fc-ink);
+    box-shadow: 0 1px 2px rgba(24, 34, 24, .08);
+}
+
+.fc-highlights {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 10px;
+}
+
+.fc-highlights>div {
+    border: 1px solid var(--fc-line);
+    border-radius: 12px;
+    padding: 10px 12px;
+    display: grid;
+    gap: 2px;
+}
+
+.fc-highlights span {
+    color: var(--fc-muted);
+    font-size: 12px;
+    font-weight: 650;
+}
+
+.fc-highlights b {
+    font-size: 18px;
+    font-weight: 750;
+}
+
+.fc-highlights small {
+    color: var(--fc-muted);
+    font-size: 12.5px;
+}
+
+.fc-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13.5px;
+}
+
+.fc-table th,
+.fc-table td {
+    padding: 9px 10px;
+    border-bottom: 1px solid var(--fc-line);
+    text-align: left;
+}
+
+.fc-table thead th {
+    color: var(--fc-muted);
+    font-size: 12.5px;
+    font-weight: 650;
+}
+
+.fc-table tbody th {
+    font-weight: 700;
+}
+
+.fc-summary h2 {
+    font-size: 18px;
+}

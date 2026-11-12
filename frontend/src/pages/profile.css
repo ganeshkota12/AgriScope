@@ -1,0 +1,427 @@
+/* My Profile page. Every class starts with "pf-" so nothing else is affected. */
+
+.pf-page {
+    --pf-green: #1f4d32;
+    --pf-green-soft: #e6f1e3;
+    --pf-ink: #182218;
+    --pf-muted: #5f6e62;
+    --pf-line: #e3eadf;
+    display: grid;
+    gap: 18px;
+    max-width: 760px;
+    margin: 0 auto;
+    color: var(--pf-ink);
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.pf-page h1,
+.pf-page h2,
+.pf-page p {
+    margin: 0;
+}
+
+.pf-card {
+    min-width: 0;
+    padding: clamp(18px, 2.6vw, 28px);
+    border: 1px solid var(--pf-line);
+    border-radius: 18px;
+    background: #fff;
+    box-shadow: 0 1px 2px rgba(24, 34, 24, 0.04), 0 6px 18px rgba(24, 34, 24, 0.04);
+}
+
+/* ---------- Who you are ---------- */
+
+.pf-identity {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    background: linear-gradient(120deg, #173e2a 0%, #2a6240 70%, #5f8a55 100%);
+    border-color: transparent;
+    color: #fff;
+}
+
+.pf-avatar {
+    display: grid;
+    flex-shrink: 0;
+    width: 68px;
+    height: 68px;
+    place-items: center;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.16);
+    font-size: 24px;
+    font-weight: 750;
+    letter-spacing: 0.02em;
+}
+
+.pf-identity-text {
+    min-width: 0;
+}
+
+.pf-identity h1 {
+    font-size: clamp(22px, 3vw, 28px);
+    font-weight: 750;
+    letter-spacing: -0.5px;
+    overflow-wrap: anywhere;
+}
+
+.pf-identity p {
+    margin-top: 2px;
+    color: #dcebd6;
+    overflow-wrap: anywhere;
+}
+
+.pf-since {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 3px 12px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.15);
+    color: #eef6ea;
+    font-size: 12.5px;
+    font-weight: 650;
+}
+
+/* ---------- Details ---------- */
+
+.pf-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 14px;
+    margin-bottom: 14px;
+}
+
+.pf-head h2 {
+    font-size: 18px;
+    font-weight: 750;
+    letter-spacing: -0.3px;
+}
+
+.pf-head p {
+    margin-top: 2px;
+    color: var(--pf-muted);
+    font-size: 13px;
+}
+
+.pf-details {
+    display: grid;
+    margin: 0;
+}
+
+.pf-row {
+    display: grid;
+    grid-template-columns: minmax(130px, 200px) minmax(0, 1fr);
+    gap: 14px;
+    padding: 14px 0;
+    border-top: 1px solid #edf1ea;
+}
+
+.pf-row dt {
+    color: var(--pf-muted);
+    font-size: 13px;
+    font-weight: 650;
+}
+
+.pf-row dd {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 600;
+    overflow-wrap: anywhere;
+}
+
+.pf-empty {
+    color: #8b978d;
+    font-weight: 500;
+}
+
+/* ---------- Editing ---------- */
+
+.pf-form {
+    display: grid;
+    gap: 16px;
+    padding-top: 6px;
+}
+
+.pf-grid {
+    display: grid;
+    grid-template-columns: 1fr 0.6fr;
+    gap: 14px;
+}
+
+.pf-field {
+    display: grid;
+    gap: 6px;
+    min-width: 0;
+}
+
+.pf-field label {
+    color: #2f4034;
+    font-size: 12.5px;
+    font-weight: 700;
+}
+
+.pf-optional {
+    margin-left: 4px;
+    color: #7f8c81;
+    font-size: 11px;
+    font-weight: 500;
+}
+
+.pf-field input {
+    width: 100%;
+    min-width: 0;
+    height: 44px;
+    padding: 0 13px;
+    border: 1px solid #d3dccd;
+    border-radius: 11px;
+    background: #fff;
+    color: var(--pf-ink);
+    font: inherit;
+    font-size: 14px;
+}
+
+.pf-field input:focus {
+    border-color: #2f6b45;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(47, 107, 69, 0.16);
+}
+
+.pf-field input:disabled {
+    background: #f1f4ee;
+    color: #66736a;
+    cursor: not-allowed;
+}
+
+.pf-note {
+    color: var(--pf-muted);
+    font-size: 12px;
+}
+
+.pf-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 4px;
+}
+
+.pf-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 40px;
+    padding: 0 18px;
+    border: 1px solid #cfdcca;
+    border-radius: 11px;
+    background: #fff;
+    color: var(--pf-green);
+    font: inherit;
+    font-size: 13.5px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.pf-button:hover:not(:disabled) {
+    background: #f3f8f1;
+}
+
+.pf-button:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+}
+
+.pf-button-primary {
+    border-color: var(--pf-green);
+    background: var(--pf-green);
+    color: #fff;
+}
+
+.pf-button-primary:hover:not(:disabled) {
+    background: #183d28;
+}
+
+.pf-spinner {
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    border: 2px solid rgba(255, 255, 255, 0.35);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: pf-spin 0.8s linear infinite;
+}
+
+@keyframes pf-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ---------- Messages ---------- */
+
+.pf-message {
+    padding: 11px 14px;
+    border: 1px solid #dfe9db;
+    border-radius: 12px;
+    background: #f4f8f1;
+    font-size: 13.5px;
+}
+
+.pf-message-success {
+    border-color: #cfe3c9;
+    background: #eaf4e7;
+    color: var(--pf-green);
+    font-weight: 600;
+}
+
+.pf-message-error {
+    border-color: #f0cdc6;
+    background: #fdf3f1;
+    color: #6f2117;
+}
+
+.pf-alert {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    border-color: #f0cdc6;
+    background: #fdf3f1;
+    color: #6f2117;
+}
+
+/* ---------- Saved comparisons ---------- */
+
+.pf-muted {
+    color: var(--pf-muted);
+    font-size: 13.5px;
+}
+
+.pf-saved {
+    display: grid;
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.pf-saved-item {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 13px 14px;
+    border: 1px solid #e3eadf;
+    border-radius: 13px;
+    background: #fbfcf8;
+}
+
+.pf-saved-item strong {
+    display: block;
+    font-size: 14.5px;
+}
+
+.pf-saved-item span {
+    color: var(--pf-muted);
+    font-size: 12.5px;
+}
+
+.pf-saved-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.pf-saved-actions .pf-button {
+    min-height: 36px;
+    padding: 0 14px;
+    font-size: 13px;
+}
+
+/* ---------- While loading ---------- */
+
+.pf-skeleton {
+    display: grid;
+    gap: 14px;
+}
+
+.pf-skel-avatar {
+    width: 68px;
+    height: 68px;
+    border-radius: 50%;
+}
+
+.pf-skel-line,
+.pf-skel-avatar {
+    display: block;
+    background: linear-gradient(90deg, #eef2ec 25%, #f8faf6 50%, #eef2ec 75%);
+    background-size: 200% 100%;
+    animation: pf-shimmer 1.4s linear infinite;
+}
+
+.pf-skel-line {
+    height: 14px;
+    border-radius: 7px;
+}
+
+.pf-skel-wide {
+    width: 55%;
+}
+
+@keyframes pf-shimmer {
+    to {
+        background-position: -200% 0;
+    }
+}
+
+.pf-page :focus-visible {
+    outline: 2px solid var(--pf-green);
+    outline-offset: 2px;
+}
+
+/* ---------- Smaller screens ---------- */
+
+@media (max-width: 560px) {
+    .pf-identity {
+        align-items: flex-start;
+    }
+
+    .pf-avatar {
+        width: 56px;
+        height: 56px;
+        font-size: 20px;
+    }
+
+    .pf-row {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 2px;
+        padding: 12px 0;
+    }
+
+    .pf-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .pf-head {
+        flex-direction: column;
+    }
+
+    .pf-actions .pf-button {
+        flex: 1;
+    }
+
+    .pf-alert {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .pf-spinner,
+    .pf-skel-line,
+    .pf-skel-avatar {
+        animation-duration: 2.4s;
+    }
+}

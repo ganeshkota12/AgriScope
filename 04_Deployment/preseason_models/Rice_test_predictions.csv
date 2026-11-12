@@ -1,0 +1,105 @@
+District_Name,Crop,Season,Crop_Year,Yield_kg_ha,Predicted_Yield_kg_ha,Absolute_Error_kg_ha,Evaluation_Type
+ANANTAPUR,Rice,Kharif,2011,2506.12,2898.120754417991,392.0007544179912,Chronological holdout; prior observed yields available
+ANANTAPUR,Rice,Kharif,2012,2661.0,2949.1983796825357,288.1983796825357,Chronological holdout; prior observed yields available
+ANANTAPUR,Rice,Kharif,2013,2112.01,2824.6278795238104,712.6178795238102,Chronological holdout; prior observed yields available
+ANANTAPUR,Rice,Kharif,2014,3007.99,2729.316022301589,278.6739776984109,Chronological holdout; prior observed yields available
+ANANTAPUR,Rice,Rabi,2011,2333.03,2469.057680873014,136.02768087301365,Chronological holdout; prior observed yields available
+ANANTAPUR,Rice,Rabi,2012,2539.01,2492.3185970634922,46.691402936507984,Chronological holdout; prior observed yields available
+ANANTAPUR,Rice,Rabi,2013,2325.0,2571.400224206349,246.40022420634887,Chronological holdout; prior observed yields available
+ANANTAPUR,Rice,Rabi,2014,2193.96,2515.614171031746,321.65417103174605,Chronological holdout; prior observed yields available
+CHITTOOR,Rice,Kharif,2011,3212.95,2738.2272535714283,474.72274642857155,Chronological holdout; prior observed yields available
+CHITTOOR,Rice,Kharif,2012,3492.97,2969.1670336507923,523.8029663492075,Chronological holdout; prior observed yields available
+CHITTOOR,Rice,Kharif,2013,3207.02,2990.036444999999,216.98355500000116,Chronological holdout; prior observed yields available
+CHITTOOR,Rice,Kharif,2014,3342.0,2964.650381666666,377.3496183333341,Chronological holdout; prior observed yields available
+CHITTOOR,Rice,Rabi,2011,3353.01,2903.444831626985,449.56516837301524,Chronological holdout; prior observed yields available
+CHITTOOR,Rice,Rabi,2012,3651.01,2982.090677222222,668.9193227777782,Chronological holdout; prior observed yields available
+CHITTOOR,Rice,Rabi,2013,3469.99,3125.458951230158,344.5310487698416,Chronological holdout; prior observed yields available
+CHITTOOR,Rice,Rabi,2014,3180.0,3055.6360038888884,124.36399611111165,Chronological holdout; prior observed yields available
+EAST GODAVARI,Rice,Kharif,2011,2986.86,2488.14926904762,498.71073095238035,Chronological holdout; prior observed yields available
+EAST GODAVARI,Rice,Kharif,2012,1531.0,2851.464622619048,1320.464622619048,Chronological holdout; prior observed yields available
+EAST GODAVARI,Rice,Kharif,2013,1846.0,2477.4575829365094,631.4575829365094,Chronological holdout; prior observed yields available
+EAST GODAVARI,Rice,Kharif,2014,3016.0,2527.8058675396824,488.19413246031763,Chronological holdout; prior observed yields available
+EAST GODAVARI,Rice,Rabi,2011,4204.0,4465.68842052669,261.6884205266897,Chronological holdout; prior observed yields available
+EAST GODAVARI,Rice,Rabi,2012,4422.0,4807.290647405002,385.29064740500235,Chronological holdout; prior observed yields available
+EAST GODAVARI,Rice,Rabi,2013,4587.0,4816.873646161617,229.87364616161722,Chronological holdout; prior observed yields available
+EAST GODAVARI,Rice,Rabi,2014,5245.0,4499.6548706060585,745.3451293939415,Chronological holdout; prior observed yields available
+GUNTUR,Rice,Kharif,2011,3835.91,3068.2148440873016,767.6951559126983,Chronological holdout; prior observed yields available
+GUNTUR,Rice,Kharif,2012,3479.0,3345.9860888095236,133.0139111904764,Chronological holdout; prior observed yields available
+GUNTUR,Rice,Kharif,2013,3259.0,3211.1663903968224,47.83360960317759,Chronological holdout; prior observed yields available
+GUNTUR,Rice,Kharif,2014,3913.0,3067.82803178571,845.1719682142898,Chronological holdout; prior observed yields available
+GUNTUR,Rice,Rabi,2011,3547.04,3250.5037335317447,296.53626646825523,Chronological holdout; prior observed yields available
+GUNTUR,Rice,Rabi,2012,3576.06,3563.6221798412703,12.437820158729664,Chronological holdout; prior observed yields available
+GUNTUR,Rice,Rabi,2013,3810.01,3565.112682460316,244.89731753968408,Chronological holdout; prior observed yields available
+GUNTUR,Rice,Rabi,2014,3762.99,3449.0974090079394,313.8925909920604,Chronological holdout; prior observed yields available
+KADAPA,Rice,Kharif,2011,2985.01,2518.4467677910047,466.5632322089955,Chronological holdout; prior observed yields available
+KADAPA,Rice,Kharif,2012,2549.01,2452.994497380952,96.01550261904822,Chronological holdout; prior observed yields available
+KADAPA,Rice,Kharif,2013,2876.01,2567.6550311243377,308.3549688756625,Chronological holdout; prior observed yields available
+KADAPA,Rice,Kharif,2014,3695.0,2351.374485952382,1343.6255140476178,Chronological holdout; prior observed yields available
+KADAPA,Rice,Rabi,2011,2648.96,2147.1858242748935,501.7741757251065,Chronological holdout; prior observed yields available
+KADAPA,Rice,Rabi,2012,2916.07,2254.42749907648,661.64250092352,Chronological holdout; prior observed yields available
+KADAPA,Rice,Rabi,2013,2687.02,2508.572691854258,178.44730814574177,Chronological holdout; prior observed yields available
+KADAPA,Rice,Rabi,2014,2709.12,2302.9805723304476,406.13942766955233,Chronological holdout; prior observed yields available
+KRISHNA,Rice,Kharif,2011,3729.1,2800.7597375396826,928.3402624603173,Chronological holdout; prior observed yields available
+KRISHNA,Rice,Kharif,2012,3588.0,3317.697471428568,270.30252857143205,Chronological holdout; prior observed yields available
+KRISHNA,Rice,Kharif,2013,2925.0,3027.4460300793635,102.44603007936348,Chronological holdout; prior observed yields available
+KRISHNA,Rice,Kharif,2014,3354.0,2853.46909190476,500.5309080952402,Chronological holdout; prior observed yields available
+KRISHNA,Rice,Rabi,2011,3415.95,3687.104472380954,271.1544723809543,Chronological holdout; prior observed yields available
+KRISHNA,Rice,Rabi,2012,3717.03,3710.488980476193,6.541019523807336,Chronological holdout; prior observed yields available
+KRISHNA,Rice,Rabi,2013,4065.0,3730.4355726984136,334.5644273015864,Chronological holdout; prior observed yields available
+KRISHNA,Rice,Rabi,2014,3973.01,3687.4464446031766,285.56355539682363,Chronological holdout; prior observed yields available
+KURNOOL,Rice,Kharif,2011,3629.78,2862.9615009259205,766.8184990740797,Chronological holdout; prior observed yields available
+KURNOOL,Rice,Kharif,2012,3811.0,3263.2527870634894,547.7472129365106,Chronological holdout; prior observed yields available
+KURNOOL,Rice,Kharif,2013,3676.0,3267.0623853174598,408.93761468254024,Chronological holdout; prior observed yields available
+KURNOOL,Rice,Kharif,2014,3948.0,3276.4398886507915,671.5601113492085,Chronological holdout; prior observed yields available
+KURNOOL,Rice,Rabi,2011,3124.03,3052.704569841269,71.32543015873125,Chronological holdout; prior observed yields available
+KURNOOL,Rice,Rabi,2012,3569.0,3024.5928476190475,544.4071523809525,Chronological holdout; prior observed yields available
+KURNOOL,Rice,Rabi,2013,3654.0,3235.2050869841273,418.7949130158727,Chronological holdout; prior observed yields available
+KURNOOL,Rice,Rabi,2014,3547.0,3206.9083659523803,340.09163404761966,Chronological holdout; prior observed yields available
+PRAKASAM,Rice,Kharif,2011,3449.01,3156.8982321031754,292.11176789682486,Chronological holdout; prior observed yields available
+PRAKASAM,Rice,Kharif,2012,3592.99,3313.029158174603,279.960841825397,Chronological holdout; prior observed yields available
+PRAKASAM,Rice,Kharif,2013,3677.0,3179.575259126984,497.42474087301616,Chronological holdout; prior observed yields available
+PRAKASAM,Rice,Kharif,2014,3833.99,3218.0835960317463,615.9064039682535,Chronological holdout; prior observed yields available
+PRAKASAM,Rice,Rabi,2011,3679.0,3255.792615555556,423.20738444444396,Chronological holdout; prior observed yields available
+PRAKASAM,Rice,Rabi,2012,3711.01,3385.9093961111143,325.10060388888587,Chronological holdout; prior observed yields available
+PRAKASAM,Rice,Rabi,2013,3959.0,3595.1277061111114,363.87229388888863,Chronological holdout; prior observed yields available
+PRAKASAM,Rice,Rabi,2014,3864.01,3459.7481338888915,404.2618661111087,Chronological holdout; prior observed yields available
+SPSR NELLORE,Rice,Kharif,2011,3674.82,3241.0344935714284,433.7855064285718,Chronological holdout; prior observed yields available
+SPSR NELLORE,Rice,Kharif,2012,3986.0,3398.3131925,587.6868075000002,Chronological holdout; prior observed yields available
+SPSR NELLORE,Rice,Kharif,2013,3581.0,3401.8780849603168,179.12191503968324,Chronological holdout; prior observed yields available
+SPSR NELLORE,Rice,Kharif,2014,3737.0,3345.270268412696,391.72973158730383,Chronological holdout; prior observed yields available
+SPSR NELLORE,Rice,Rabi,2011,4151.0,3831.2436492063484,319.75635079365156,Chronological holdout; prior observed yields available
+SPSR NELLORE,Rice,Rabi,2012,4112.0,3810.8690849206355,301.1309150793645,Chronological holdout; prior observed yields available
+SPSR NELLORE,Rice,Rabi,2013,4130.0,3923.031440555556,206.96855944444405,Chronological holdout; prior observed yields available
+SPSR NELLORE,Rice,Rabi,2014,4126.0,3882.204309920636,243.7956900793638,Chronological holdout; prior observed yields available
+SRIKAKULAM,Rice,Kharif,2011,1917.22,2238.457537619047,321.23753761904686,Chronological holdout; prior observed yields available
+SRIKAKULAM,Rice,Kharif,2012,2530.0,1968.1105682804223,561.8894317195777,Chronological holdout; prior observed yields available
+SRIKAKULAM,Rice,Kharif,2013,1738.0,2075.0951194444465,337.0951194444465,Chronological holdout; prior observed yields available
+SRIKAKULAM,Rice,Kharif,2014,2116.0,2241.105477962964,125.10547796296396,Chronological holdout; prior observed yields available
+SRIKAKULAM,Rice,Rabi,2011,2108.82,2412.5066563492096,303.68665634920944,Chronological holdout; prior observed yields available
+SRIKAKULAM,Rice,Rabi,2012,2728.85,2451.723036653441,277.126963346559,Chronological holdout; prior observed yields available
+SRIKAKULAM,Rice,Rabi,2013,2381.9,2392.8147776984147,10.914777698414582,Chronological holdout; prior observed yields available
+SRIKAKULAM,Rice,Rabi,2014,2720.08,2331.6880347222227,388.3919652777772,Chronological holdout; prior observed yields available
+VISAKHAPATANAM,Rice,Kharif,2011,1522.91,1704.9528640740743,182.04286407407426,Chronological holdout; prior observed yields available
+VISAKHAPATANAM,Rice,Kharif,2012,1434.0,1472.4550581096687,38.4550581096687,Chronological holdout; prior observed yields available
+VISAKHAPATANAM,Rice,Kharif,2013,1739.0,1566.3377896969703,172.66221030302972,Chronological holdout; prior observed yields available
+VISAKHAPATANAM,Rice,Kharif,2014,1627.0,1730.8750298292462,103.87502982924616,Chronological holdout; prior observed yields available
+VISAKHAPATANAM,Rice,Rabi,2011,1136.03,1694.4590742592613,558.4290742592614,Chronological holdout; prior observed yields available
+VISAKHAPATANAM,Rice,Rabi,2012,2036.07,1809.5281406084678,226.54185939153217,Chronological holdout; prior observed yields available
+VISAKHAPATANAM,Rice,Rabi,2013,1942.0,1846.629959497354,95.3700405026459,Chronological holdout; prior observed yields available
+VISAKHAPATANAM,Rice,Rabi,2014,2494.06,1773.6680270105837,720.3919729894162,Chronological holdout; prior observed yields available
+VIZIANAGARAM,Rice,Kharif,2011,2146.76,2327.155903386243,180.39590338624294,Chronological holdout; prior observed yields available
+VIZIANAGARAM,Rice,Kharif,2012,2574.0,2112.46323833333,461.5367616666699,Chronological holdout; prior observed yields available
+VIZIANAGARAM,Rice,Kharif,2013,2475.0,2205.809672394179,269.19032760582104,Chronological holdout; prior observed yields available
+VIZIANAGARAM,Rice,Kharif,2014,2638.0,2330.1944916666653,307.8055083333347,Chronological holdout; prior observed yields available
+VIZIANAGARAM,Rice,Rabi,2011,2448.05,2768.2160599999993,320.1660599999991,Chronological holdout; prior observed yields available
+VIZIANAGARAM,Rice,Rabi,2012,2139.01,2465.073659404761,326.063659404761,Chronological holdout; prior observed yields available
+VIZIANAGARAM,Rice,Rabi,2013,2727.99,2422.823559444444,305.1664405555557,Chronological holdout; prior observed yields available
+VIZIANAGARAM,Rice,Rabi,2014,3232.03,2437.135737156084,794.8942628439163,Chronological holdout; prior observed yields available
+WEST GODAVARI,Rice,Kharif,2011,3180.82,2702.418859285717,478.401140714283,Chronological holdout; prior observed yields available
+WEST GODAVARI,Rice,Kharif,2012,1989.0,3038.8853947619054,1049.8853947619054,Chronological holdout; prior observed yields available
+WEST GODAVARI,Rice,Kharif,2013,2169.0,2630.0077838888915,461.0077838888915,Chronological holdout; prior observed yields available
+WEST GODAVARI,Rice,Kharif,2014,3168.0,2730.971722857145,437.02827714285513,Chronological holdout; prior observed yields available
+WEST GODAVARI,Rice,Rabi,2011,4406.0,4286.1059501058235,119.89404989417653,Chronological holdout; prior observed yields available
+WEST GODAVARI,Rice,Rabi,2012,4488.0,4626.1309587566175,138.13095875661747,Chronological holdout; prior observed yields available
+WEST GODAVARI,Rice,Rabi,2013,4555.0,4641.839435978838,86.83943597883808,Chronological holdout; prior observed yields available
+WEST GODAVARI,Rice,Rabi,2014,5011.0,4349.00865121693,661.99134878307,Chronological holdout; prior observed yields available

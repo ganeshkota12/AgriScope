@@ -1,0 +1,3 @@
+Crop,Alpha,Training_Rows,Training_Years,Model_File,Metadata_File
+Rice,10.0,442,1998-2014,C:\MINI_PROJECT_FINAL\04_Deployment\Rice_Ridge_Model.joblib,C:\MINI_PROJECT_FINAL\04_Deployment\Rice_Ridge_Metadata.joblib
+Dry chillies,100.0,361,1998-2014,C:\MINI_PROJECT_FINAL\04_Deployment\Dry_Chillies_Ridge_Model.joblib,C:\MINI_PROJECT_FINAL\04_Deployment\Dry_Chillies_Ridge_Metadata.joblib

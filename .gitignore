@@ -1,0 +1,52 @@
+# Secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+id_rsa
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+
+# Node / frontend builds
+node_modules/
+dist/
+build/
+coverage/
+
+# Git and editor
+.git/
+.vscode/
+.idea/
+
+# Temporary files
+*.log
+*.tmp
+.DS_Store
+Thumbs.db
+
+# Local backup/trash
+_trash/
+
+# Archives and scratch notes
+*.zip
+feature_script_list.txt
+lag_code_summary.txt
+
+# Non-essential archives, scratch notes, and intermediate experiment artifacts
+*.zip
+feature_script_list.txt
+lag_code_summary.txt
+04_EDA/Legacy_1153_Rows/
+03_Modeling/
+02_Integrated_Data/Stage*
+02_Integrated_Data/*Experiment*/
+02_Integrated_Data/*Comparison*/
+02_Integrated_Data/Recursive_*/

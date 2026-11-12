@@ -1,0 +1,55 @@
+/* Fonts for the sign-in pages (the rest of the app uses the system font). Loaded once, here. */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@700;800&family=Noto+Sans+Telugu:wght@400;600;700&display=swap');
+
+:root {
+    font-family: 'DM Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    color-scheme: light;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-text-size-adjust: 100%;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+    width: 100%;
+    min-height: 100%;
+    margin: 0;
+}
+
+body {
+    min-width: 320px;
+    min-height: 100vh;
+    background: #f6f7f1;
+}
+
+button,
+input,
+textarea,
+select {
+    font: inherit;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+/* Keyboard users can always see where they are. Mouse clicks are not affected. */
+:focus-visible {
+    outline: 2px solid #1f4d32;
+    outline-offset: 2px;
+}
+
+/* Telugu text (the reply language switch) uses a font that has Telugu letters. */
+:lang(te),
+[lang='te'] {
+    font-family: 'Noto Sans Telugu', 'DM Sans', system-ui, sans-serif;
+    line-height: 1.7;
+}

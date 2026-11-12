@@ -1,0 +1,93 @@
+District_Name,Crop,Season,Crop_Year,Yield_kg_ha,Predicted_Yield_kg_ha,Absolute_Error_kg_ha,Evaluation_Type
+ANANTAPUR,Dry chillies,Kharif,2011,2542.06,3356.098706248196,814.0387062481959,Chronological holdout; prior observed yields available
+ANANTAPUR,Dry chillies,Kharif,2012,2047.88,2963.1808032323247,915.3008032323246,Chronological holdout; prior observed yields available
+ANANTAPUR,Dry chillies,Kharif,2013,1497.92,2757.0891406132773,1259.1691406132772,Chronological holdout; prior observed yields available
+ANANTAPUR,Dry chillies,Kharif,2014,4232.94,2490.7433342640693,1742.1966657359303,Chronological holdout; prior observed yields available
+ANANTAPUR,Dry chillies,Rabi,2012,2271.43,1705.6322249999996,565.7977750000002,Chronological holdout; prior observed yields available
+ANANTAPUR,Dry chillies,Rabi,2013,2000.0,2832.7136223809507,832.7136223809507,Chronological holdout; prior observed yields available
+ANANTAPUR,Dry chillies,Rabi,2014,3120.97,3553.8927496031774,432.92274960317764,Chronological holdout; prior observed yields available
+CHITTOOR,Dry chillies,Rabi,2011,1304.16,3091.639711666667,1787.479711666667,Chronological holdout; prior observed yields available
+CHITTOOR,Dry chillies,Rabi,2012,2277.91,2171.8738348412717,106.03616515872818,Chronological holdout; prior observed yields available
+CHITTOOR,Dry chillies,Rabi,2013,1992.0,3151.956100000001,1159.9561000000008,Chronological holdout; prior observed yields available
+CHITTOOR,Dry chillies,Rabi,2014,3122.86,3404.4052327777804,281.54523277778026,Chronological holdout; prior observed yields available
+EAST GODAVARI,Dry chillies,Kharif,2011,3800.0,3765.4794427777774,34.52055722222258,Chronological holdout; prior observed yields available
+EAST GODAVARI,Dry chillies,Kharif,2012,4134.83,3911.485643888886,223.34435611111394,Chronological holdout; prior observed yields available
+EAST GODAVARI,Dry chillies,Kharif,2013,4846.56,3836.331037222224,1010.2289627777764,Chronological holdout; prior observed yields available
+EAST GODAVARI,Dry chillies,Kharif,2014,5754.01,3606.723230555559,2147.2867694444412,Chronological holdout; prior observed yields available
+EAST GODAVARI,Dry chillies,Rabi,2011,4355.56,3835.9439713492043,519.6160286507961,Chronological holdout; prior observed yields available
+EAST GODAVARI,Dry chillies,Rabi,2012,3991.8,3688.204213571429,303.59578642857105,Chronological holdout; prior observed yields available
+EAST GODAVARI,Dry chillies,Rabi,2013,4689.32,3747.6873207936474,941.6326792063523,Chronological holdout; prior observed yields available
+EAST GODAVARI,Dry chillies,Rabi,2014,1216.19,3503.941794365081,2287.751794365081,Chronological holdout; prior observed yields available
+GUNTUR,Dry chillies,Kharif,2011,4292.0,4631.4873509523795,339.48735095237953,Chronological holdout; prior observed yields available
+GUNTUR,Dry chillies,Kharif,2012,4358.0,4344.3613308730155,13.638669126984496,Chronological holdout; prior observed yields available
+GUNTUR,Dry chillies,Kharif,2013,5137.01,4596.358301111111,540.6516988888889,Chronological holdout; prior observed yields available
+GUNTUR,Dry chillies,Kharif,2014,6509.99,4630.237867142859,1879.752132857141,Chronological holdout; prior observed yields available
+GUNTUR,Dry chillies,Rabi,2011,4355.8,4278.41704063492,77.38295936507984,Chronological holdout; prior observed yields available
+GUNTUR,Dry chillies,Rabi,2012,3989.9,4224.360437142859,234.46043714285906,Chronological holdout; prior observed yields available
+GUNTUR,Dry chillies,Rabi,2013,4685.15,4141.997491746032,543.1525082539674,Chronological holdout; prior observed yields available
+GUNTUR,Dry chillies,Rabi,2014,5052.94,4315.828635079366,737.1113649206336,Chronological holdout; prior observed yields available
+KADAPA,Dry chillies,Kharif,2011,4001.6,2451.280697777778,1550.3193022222217,Chronological holdout; prior observed yields available
+KADAPA,Dry chillies,Kharif,2012,4735.34,3271.887819722223,1463.4521802777772,Chronological holdout; prior observed yields available
+KADAPA,Dry chillies,Kharif,2013,3627.39,3481.1304025000018,146.2595974999981,Chronological holdout; prior observed yields available
+KADAPA,Dry chillies,Kharif,2014,5000.0,3422.475107182541,1577.5248928174592,Chronological holdout; prior observed yields available
+KADAPA,Dry chillies,Rabi,2011,1277.78,2984.692690000001,1706.9126900000012,Chronological holdout; prior observed yields available
+KADAPA,Dry chillies,Rabi,2012,2250.0,2133.628467222222,116.37153277777816,Chronological holdout; prior observed yields available
+KADAPA,Dry chillies,Rabi,2013,1987.18,3057.2976483333373,1070.1176483333372,Chronological holdout; prior observed yields available
+KADAPA,Dry chillies,Rabi,2014,3200.0,2980.9550627777817,219.04493722221832,Chronological holdout; prior observed yields available
+KRISHNA,Dry chillies,Kharif,2011,2960.02,3591.346529722219,631.3265297222192,Chronological holdout; prior observed yields available
+KRISHNA,Dry chillies,Kharif,2012,3384.99,3552.1093213095214,167.11932130952164,Chronological holdout; prior observed yields available
+KRISHNA,Dry chillies,Kharif,2013,4957.96,3601.119287420634,1356.840712579366,Chronological holdout; prior observed yields available
+KRISHNA,Dry chillies,Kharif,2014,5852.06,3764.554054007936,2087.5059459920644,Chronological holdout; prior observed yields available
+KRISHNA,Dry chillies,Rabi,2011,4355.87,3759.040966825395,596.8290331746048,Chronological holdout; prior observed yields available
+KRISHNA,Dry chillies,Rabi,2012,3989.9,3724.8174012698405,265.0825987301596,Chronological holdout; prior observed yields available
+KRISHNA,Dry chillies,Rabi,2013,4685.31,3777.473956269839,907.8360437301612,Chronological holdout; prior observed yields available
+KRISHNA,Dry chillies,Rabi,2014,5053.2,3610.334123809522,1442.8658761904776,Chronological holdout; prior observed yields available
+KURNOOL,Dry chillies,Kharif,2011,2116.0,2455.6413155555556,339.6413155555556,Chronological holdout; prior observed yields available
+KURNOOL,Dry chillies,Kharif,2012,1914.99,2450.3466966666697,535.3566966666697,Chronological holdout; prior observed yields available
+KURNOOL,Dry chillies,Kharif,2013,3788.03,2394.3356300000014,1393.6943699999988,Chronological holdout; prior observed yields available
+KURNOOL,Dry chillies,Kharif,2014,5065.98,2638.2998494444446,2427.680150555555,Chronological holdout; prior observed yields available
+KURNOOL,Dry chillies,Rabi,2011,1304.06,2793.0812566666687,1489.0212566666687,Chronological holdout; prior observed yields available
+KURNOOL,Dry chillies,Rabi,2012,2277.43,2080.336633888889,197.09336611111075,Chronological holdout; prior observed yields available
+KURNOOL,Dry chillies,Rabi,2013,1992.98,3430.661762222225,1437.6817622222252,Chronological holdout; prior observed yields available
+KURNOOL,Dry chillies,Rabi,2014,3122.98,3297.4347700000035,174.45477000000346,Chronological holdout; prior observed yields available
+PRAKASAM,Dry chillies,Kharif,2011,2590.02,2492.917532777778,97.102467222222,Chronological holdout; prior observed yields available
+PRAKASAM,Dry chillies,Kharif,2012,3797.98,2690.4913416666645,1107.4886583333355,Chronological holdout; prior observed yields available
+PRAKASAM,Dry chillies,Kharif,2013,3892.99,3490.6701724999994,402.31982750000043,Chronological holdout; prior observed yields available
+PRAKASAM,Dry chillies,Kharif,2014,3547.99,3875.793103888887,327.8031038888871,Chronological holdout; prior observed yields available
+PRAKASAM,Dry chillies,Rabi,2011,4804.05,4828.965871031744,24.915871031744246,Chronological holdout; prior observed yields available
+PRAKASAM,Dry chillies,Rabi,2012,4369.09,4725.595906031743,356.5059060317426,Chronological holdout; prior observed yields available
+PRAKASAM,Dry chillies,Rabi,2013,5704.03,4620.736354682538,1083.2936453174616,Chronological holdout; prior observed yields available
+PRAKASAM,Dry chillies,Rabi,2014,6740.04,4751.586364523808,1988.4536354761922,Chronological holdout; prior observed yields available
+SPSR NELLORE,Dry chillies,Kharif,2011,3791.67,3938.414897817456,146.74489781745615,Chronological holdout; prior observed yields available
+SPSR NELLORE,Dry chillies,Rabi,2011,4601.81,3773.4799355158707,828.3300644841297,Chronological holdout; prior observed yields available
+SPSR NELLORE,Dry chillies,Rabi,2012,5906.89,3650.197960198413,2256.6920398015873,Chronological holdout; prior observed yields available
+SPSR NELLORE,Dry chillies,Rabi,2013,4224.63,3727.2121338492075,497.41786615079263,Chronological holdout; prior observed yields available
+SPSR NELLORE,Dry chillies,Rabi,2014,6371.75,4014.3543820238096,2357.3956179761904,Chronological holdout; prior observed yields available
+SRIKAKULAM,Dry chillies,Kharif,2011,3800.0,3880.7700397619037,80.77003976190372,Chronological holdout; prior observed yields available
+SRIKAKULAM,Dry chillies,Kharif,2012,4132.08,3791.0108080158707,341.06919198412925,Chronological holdout; prior observed yields available
+SRIKAKULAM,Dry chillies,Kharif,2013,4854.17,4103.6816765873,750.4883234127001,Chronological holdout; prior observed yields available
+SRIKAKULAM,Dry chillies,Kharif,2014,5744.19,3823.446905238098,1920.7430947619014,Chronological holdout; prior observed yields available
+SRIKAKULAM,Dry chillies,Rabi,2011,5885.1,3603.469862777776,2281.630137222224,Chronological holdout; prior observed yields available
+SRIKAKULAM,Dry chillies,Rabi,2012,4995.08,3814.3443669047633,1180.7356330952366,Chronological holdout; prior observed yields available
+SRIKAKULAM,Dry chillies,Rabi,2013,5075.89,3844.574795238096,1231.3152047619042,Chronological holdout; prior observed yields available
+SRIKAKULAM,Dry chillies,Rabi,2014,3483.09,3894.304413015876,411.21441301587583,Chronological holdout; prior observed yields available
+VISAKHAPATANAM,Dry chillies,Kharif,2011,3802.25,4008.1067319841263,205.85673198412633,Chronological holdout; prior observed yields available
+VISAKHAPATANAM,Dry chillies,Kharif,2012,4134.65,4012.7097969047622,121.9402030952374,Chronological holdout; prior observed yields available
+VISAKHAPATANAM,Dry chillies,Kharif,2013,4849.21,4079.7016993650764,769.5083006349237,Chronological holdout; prior observed yields available
+VISAKHAPATANAM,Dry chillies,Kharif,2014,5753.81,3701.623985238094,2052.1860147619063,Chronological holdout; prior observed yields available
+VISAKHAPATANAM,Dry chillies,Rabi,2011,1738.96,2207.229444278498,468.26944427849776,Chronological holdout; prior observed yields available
+VISAKHAPATANAM,Dry chillies,Rabi,2012,2114.66,2448.33640753247,333.67640753246997,Chronological holdout; prior observed yields available
+VISAKHAPATANAM,Dry chillies,Rabi,2013,1931.97,1901.5331295959593,30.436870404040747,Chronological holdout; prior observed yields available
+VISAKHAPATANAM,Dry chillies,Rabi,2014,2189.68,1942.3866518181815,247.29334818181837,Chronological holdout; prior observed yields available
+VIZIANAGARAM,Dry chillies,Kharif,2011,3804.05,4079.112121507936,275.0621215079359,Chronological holdout; prior observed yields available
+VIZIANAGARAM,Dry chillies,Kharif,2012,4134.5,3979.1364620634904,155.3635379365096,Chronological holdout; prior observed yields available
+VIZIANAGARAM,Dry chillies,Kharif,2013,4848.96,4194.869007777777,654.0909922222227,Chronological holdout; prior observed yields available
+VIZIANAGARAM,Dry chillies,Kharif,2014,5758.62,3973.688337063493,1784.931662936507,Chronological holdout; prior observed yields available
+VIZIANAGARAM,Dry chillies,Rabi,2011,1550.6,1361.3964314285724,189.20356857142747,Chronological holdout; prior observed yields available
+VIZIANAGARAM,Dry chillies,Rabi,2012,1423.12,1254.263507777779,168.85649222222082,Chronological holdout; prior observed yields available
+VIZIANAGARAM,Dry chillies,Rabi,2013,1162.74,1254.5575703174604,91.81757031746042,Chronological holdout; prior observed yields available
+VIZIANAGARAM,Dry chillies,Rabi,2014,1909.63,1286.86033531746,622.76966468254,Chronological holdout; prior observed yields available
+WEST GODAVARI,Dry chillies,Rabi,2011,2274.88,2299.23258031746,24.352580317459797,Chronological holdout; prior observed yields available
+WEST GODAVARI,Dry chillies,Rabi,2012,2358.77,2378.476587222223,19.70658722222288,Chronological holdout; prior observed yields available
+WEST GODAVARI,Dry chillies,Rabi,2013,2069.39,2101.2143542063504,31.824354206350563,Chronological holdout; prior observed yields available
+WEST GODAVARI,Dry chillies,Rabi,2014,3734.03,2139.833786984127,1594.1962130158731,Chronological holdout; prior observed yields available

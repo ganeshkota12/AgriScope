@@ -1,0 +1,12 @@
+﻿fastapi==0.141.1
+uvicorn==0.52.4
+pandas==3.0.6
+scikit-learn==1.9.1
+joblib==1.6.0
+passlib[bcrypt]==1.7.4
+bcrypt==4.0.1
+python-jose[cryptography]==3.5.0
+pymongo
+# Imported by api.py but missing from the previous list:
+openai>=1.0
+python-dotenv>=1.0

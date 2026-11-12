@@ -1,0 +1,390 @@
+/* Satellite greenness page. Classes start with "sat-". */
+.sat-page {
+    --sat-ink: #182218;
+    --sat-muted: #5f6e62;
+    --sat-line: #e3eadf;
+    max-width: 1400px;
+    margin: 0 auto;
+    color: var(--sat-ink);
+    font-size: 14px;
+    line-height: 1.5;
+    display: grid;
+    gap: 14px;
+}
+
+.sat-page h1,
+.sat-page h2,
+.sat-page p {
+    margin: 0;
+}
+
+.sat-sr {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+}
+
+.sat-kicker {
+    color: #2f6b45;
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+}
+
+.sat-head h1 {
+    font-size: 24px;
+    font-weight: 750;
+    letter-spacing: -.4px;
+    margin-top: 4px;
+}
+
+.sat-filters {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto;
+    gap: 12px;
+    align-items: end;
+    background: #fff;
+    border: 1px solid var(--sat-line);
+    border-radius: 16px;
+    padding: 14px 16px;
+}
+
+.sat-field {
+    display: grid;
+    gap: 6px;
+    min-width: 0;
+}
+
+.sat-field span {
+    color: var(--sat-muted);
+    font-size: 12.5px;
+    font-weight: 650;
+}
+
+.sat-field select {
+    height: 42px;
+    border: 1px solid #d3dccd;
+    border-radius: 10px;
+    padding: 0 10px;
+    background: #fbfcfa;
+    font: inherit;
+    min-width: 0;
+}
+
+.sat-button {
+    height: 42px;
+    padding: 0 22px;
+    border: 0;
+    border-radius: 10px;
+    background: #1f4d32;
+    color: #fff;
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.sat-button:disabled {
+    opacity: .6;
+    cursor: not-allowed;
+}
+
+.sat-message {
+    color: #9b2c1f;
+    font-weight: 600;
+}
+
+.sat-layout {
+    display: grid;
+    gap: 16px;
+    align-items: start;
+}
+
+.sat-main {
+    display: grid;
+    gap: 14px;
+    min-width: 0;
+}
+
+.sat-card {
+    background: #fff;
+    border: 1px solid var(--sat-line);
+    border-radius: 16px;
+    padding: 18px 20px;
+    box-shadow: 0 1px 2px rgba(24, 34, 24, .04);
+    display: grid;
+    gap: 12px;
+    min-width: 0;
+}
+
+.sat-card h2 {
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.sat-empty p {
+    color: var(--sat-muted);
+}
+
+.sat-answer {
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.sat-legend {
+    color: var(--sat-muted);
+    font-size: 12.5px;
+}
+
+.sat-chart {
+    min-width: 0;
+}
+
+.sat-rank {
+    display: grid;
+    gap: 4px;
+}
+
+.sat-rk {
+    display: grid;
+    grid-template-columns: 26px minmax(110px, 170px) minmax(0, 1fr) 44px;
+    gap: 10px;
+    align-items: center;
+    height: 28px;
+    padding: 0 6px;
+    border-radius: 8px;
+    font-size: 13px;
+}
+
+.sat-rk-n {
+    color: var(--sat-muted);
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+}
+
+.sat-rk-name {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.sat-rk-track {
+    height: 10px;
+    border-radius: 999px;
+    background: #edf2ea;
+    overflow: hidden;
+    display: block;
+}
+
+.sat-rk-track i {
+    display: block;
+    height: 100%;
+    border-radius: 999px;
+    background: #9bb89f;
+}
+
+.sat-rk b {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+}
+
+.sat-rk.is-me {
+    background: #e8f2e5;
+    font-weight: 700;
+}
+
+.sat-rk.is-me .sat-rk-track i {
+    background: #1f4d32;
+}
+
+.sat-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13.5px;
+}
+
+.sat-table th,
+.sat-table td {
+    padding: 9px 10px;
+    border-bottom: 1px solid var(--sat-line);
+    text-align: left;
+}
+
+.sat-table thead th {
+    color: var(--sat-muted);
+    font-size: 12.5px;
+    font-weight: 650;
+}
+
+.sat-chat {
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    border: 1px solid var(--sat-line);
+    border-radius: 16px;
+    overflow: hidden;
+    min-height: 460px;
+}
+
+.sat-chat-head {
+    display: grid;
+    gap: 10px;
+    padding: 16px;
+    border-bottom: 1px solid var(--sat-line);
+}
+
+.sat-chat-head h2 {
+    font-size: 17px;
+    font-weight: 750;
+}
+
+.sat-chat-head p {
+    color: var(--sat-muted);
+    font-size: 12.5px;
+    margin-top: 2px;
+}
+
+.sat-actions {
+    display: grid;
+    gap: 8px;
+    padding: 12px 14px 0;
+}
+
+.sat-actions button {
+    min-height: 40px;
+    padding: 0 12px;
+    border: 1px solid #cfe0ca;
+    border-radius: 11px;
+    background: #e8f2e5;
+    color: #1f4d32;
+    font: inherit;
+    font-weight: 700;
+    text-align: left;
+    cursor: pointer;
+}
+
+.sat-actions button:disabled {
+    opacity: .5;
+    cursor: not-allowed;
+}
+
+.sat-log {
+    flex: 1;
+    min-height: 220px;
+    overflow-y: auto;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background: #fbfcf9;
+}
+
+.sat-msg {
+    max-width: 94%;
+    padding: 9px 12px;
+    border-radius: 13px;
+    font-size: 13.5px;
+    overflow-wrap: anywhere;
+}
+
+.sat-msg p {
+    margin: 0;
+    white-space: pre-wrap;
+}
+
+.sat-msg-user {
+    align-self: flex-end;
+    background: #e5f0e2;
+}
+
+.sat-msg-assistant {
+    align-self: flex-start;
+    background: #fff;
+    border: 1px solid #e3e9df;
+}
+
+.sat-msg-error {
+    border-color: #f0cdc6;
+    background: #fdf3f1;
+    color: #6f2117;
+}
+
+.sat-typing {
+    color: var(--sat-muted);
+}
+
+.sat-composer {
+    display: flex;
+    gap: 8px;
+    padding: 10px 12px;
+    border-top: 1px solid var(--sat-line);
+}
+
+.sat-composer input {
+    flex: 1;
+    min-width: 0;
+    height: 40px;
+    padding: 0 11px;
+    border: 1px solid #d3dccd;
+    border-radius: 10px;
+    font: inherit;
+    font-size: 14px;
+}
+
+.sat-composer button {
+    height: 40px;
+    padding: 0 14px;
+    border: 0;
+    border-radius: 10px;
+    background: #1f4d32;
+    color: #fff;
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.sat-composer button:disabled {
+    opacity: .45;
+    cursor: not-allowed;
+}
+
+@media (min-width: 1100px) {
+    .sat-layout {
+        grid-template-columns: minmax(0, 1fr) 360px;
+    }
+
+    .sat-chat {
+        position: sticky;
+        top: 88px;
+        height: calc(100vh - 210px);
+        min-height: 480px;
+    }
+}
+
+@media (max-width: 760px) {
+    .sat-filters {
+        grid-template-columns: 1fr;
+    }
+
+    .sat-rk {
+        grid-template-columns: 22px minmax(0, 1fr) 40px;
+    }
+
+    .sat-rk-track {
+        display: none;
+    }
+}
+
+.sat-warn {
+    border-color: #efd3a6;
+}
+
+.sat-rk-n:empty {
+    display: none;
+}
+
+.sat-rk:has(.sat-rk-n:empty) {
+    grid-template-columns: minmax(110px, 170px) minmax(0, 1fr) 50px;
+}

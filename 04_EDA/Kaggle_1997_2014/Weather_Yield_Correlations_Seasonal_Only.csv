@@ -1,0 +1,15 @@
+Crop,Weather_Feature,Observations,Correlation
+Dry chillies,Rainfall_mm,417,0.33282661966445326
+Dry chillies,Mean_Temperature_C,417,0.0535289042407701
+Dry chillies,Min_Temperature_C,417,0.10922418597312658
+Dry chillies,Max_Temperature_C,417,-0.17430115314006317
+Dry chillies,Relative_Humidity_pct,417,0.34418427444888106
+Dry chillies,Solar_Radiation_MJ_m2_day,417,-0.4064885286733534
+Dry chillies,ET0_mm,417,0.2886670715410292
+Rice,Rainfall_mm,468,-0.37512357500318055
+Rice,Mean_Temperature_C,468,0.3372226359289293
+Rice,Min_Temperature_C,468,0.20006564325157417
+Rice,Max_Temperature_C,468,0.2485828140634993
+Rice,Relative_Humidity_pct,468,-0.19325978664740914
+Rice,Solar_Radiation_MJ_m2_day,468,0.28766693735057586
+Rice,ET0_mm,468,-0.27880524875753854

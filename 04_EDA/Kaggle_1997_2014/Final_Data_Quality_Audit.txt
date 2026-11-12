@@ -1,0 +1,53 @@
+
+AGRISCOPE - FINAL DATA QUALITY AUDIT
+====================================
+
+Dataset:
+FINAL_KAGGLE_INTEGRATED_MASTER.csv
+
+Total records: 911
+Districts: 13
+Crops: 2
+Year range: 1997-2014
+
+Yield formula:
+Yield (kg/ha) = Production (tonnes) * 1000 / Area (hectares)
+
+Records with formula difference greater than 0.02 kg/ha:
+0
+
+Maximum formula difference:
+0.005000 kg/ha
+
+Weather status:
+Data_Status
+Available - NASA POWER daily, aggregated per Aggregation_Method    885
+Derived - combined seasonal weather                                 26
+
+Weather correlations:
+Calculated using Kharif and Rabi records only.
+Whole Year records are excluded because their weather
+values are derived from seasonal weather records.
+
+Correlation results:
+        Crop           Weather_Feature  Observations  Correlation
+Dry chillies               Rainfall_mm           417     0.332827
+Dry chillies        Mean_Temperature_C           417     0.053529
+Dry chillies         Min_Temperature_C           417     0.109224
+Dry chillies         Max_Temperature_C           417    -0.174301
+Dry chillies     Relative_Humidity_pct           417     0.344184
+Dry chillies Solar_Radiation_MJ_m2_day           417    -0.406489
+Dry chillies                    ET0_mm           417     0.288667
+        Rice               Rainfall_mm           468    -0.375124
+        Rice        Mean_Temperature_C           468     0.337223
+        Rice         Min_Temperature_C           468     0.200066
+        Rice         Max_Temperature_C           468     0.248583
+        Rice     Relative_Humidity_pct           468    -0.193260
+        Rice Solar_Radiation_MJ_m2_day           468     0.287667
+        Rice                    ET0_mm           468    -0.278805
+
+Interpretation:
+Correlations indicate association, not causation.
+Soil variables are district-level modelled estimates.
+Whole Year weather values are derived, not independent
+seasonal observations.

@@ -1,0 +1,26 @@
+Input seasonal crop rows: 1153
+Output integrated rows: 1153
+Duplicate crop keys: 0
+Weather matched rows: 1153
+Weather unmatched rows: 0
+Soil matched rows: 1153
+Soil unmatched rows: 0
+Usable observed targets: 1151
+Imputed target rows excluded from primary modelling: 2
+
+Weather match rate by crop:
+Crop
+Chilli    1.0
+Rice      1.0
+
+Soil match rate by crop:
+Crop
+Chilli    1.0
+Rice      1.0
+
+Rows by crop and season:
+Crop    Season
+Chilli  Kharif    262
+        Rabi      283
+Rice    Kharif    304
+        Rabi      304
