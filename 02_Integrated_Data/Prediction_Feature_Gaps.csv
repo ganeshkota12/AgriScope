@@ -1,5 +1,0 @@
-District_Name,Crop,Season,Crop_Year,Matching_Rows,Record_Status,Missing_Model_Columns,Null_Model_Features,Missing_Column_Names,Null_Feature_Names,Yield_Missing
-ANANTAPUR,Dry chillies,Rabi,2011,1,ONE_RECORD,0,3,,Yield_Lag_1Y;Yield_Lag_2Y;Yield_Rolling_Mean_3Y,False
-ANANTAPUR,Dry chillies,Rabi,2012,1,ONE_RECORD,0,2,,Yield_Lag_2Y;Yield_Rolling_Mean_3Y,False
-ANANTAPUR,Dry chillies,Rabi,2013,1,ONE_RECORD,0,1,,Yield_Rolling_Mean_3Y,False
-SPSR NELLORE,Dry chillies,Kharif,2013,1,ONE_RECORD,0,3,,Yield_Lag_1Y;Yield_Lag_2Y;Yield_Rolling_Mean_3Y,False
