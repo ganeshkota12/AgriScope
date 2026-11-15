@@ -388,3 +388,90 @@
 .sat-rk:has(.sat-rk-n:empty) {
     grid-template-columns: minmax(110px, 170px) minmax(0, 1fr) 50px;
 }
+
+/* NDVI Guide & Health Badges */
+.sat-subtitle {
+    margin: 4px 0 0;
+    color: var(--sat-muted);
+    font-size: 13.5px;
+    max-width: 68ch;
+}
+
+.sat-guide-card {
+    background: #fbfdfa;
+    border-color: #dbe4d7;
+}
+
+.sat-guide-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 12px;
+    margin-top: 10px;
+}
+
+.sat-guide-item {
+    border-radius: 12px;
+    padding: 12px 14px;
+    display: grid;
+    gap: 4px;
+    border: 1px solid var(--sat-line);
+}
+
+.sat-guide-val {
+    font-size: 16px;
+    font-weight: 800;
+}
+
+.sat-guide-item strong {
+    font-size: 13px;
+}
+
+.sat-guide-item p {
+    font-size: 12px;
+    line-height: 1.4;
+    color: var(--sat-muted);
+}
+
+.sat-guide-alert {
+    background: #fff5f5;
+    border-color: #f7d2d2;
+    color: #992929;
+}
+
+.sat-guide-warning {
+    background: #fffbf0;
+    border-color: #fbe0a9;
+    color: #8c5b0c;
+}
+
+.sat-guide-good {
+    background: #f1f8f3;
+    border-color: #bee5cb;
+    color: #1a5c32;
+}
+
+.sat-status-badge {
+    font-size: 10.5px;
+    font-weight: 750;
+    padding: 2px 7px;
+    border-radius: 6px;
+    white-space: nowrap;
+}
+
+.sat-badge-good {
+    background: #e6f6ec;
+    color: #1b6336;
+    border: 1px solid #bce6cc;
+}
+
+.sat-badge-warning {
+    background: #fff7e6;
+    color: #8f5c0a;
+    border: 1px solid #f9deaa;
+}
+
+.sat-badge-alert {
+    background: #fdf0f0;
+    color: #a32c2c;
+    border: 1px solid #f8cdcd;
+}

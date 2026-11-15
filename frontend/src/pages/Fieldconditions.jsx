@@ -211,14 +211,24 @@ export default function FieldConditions() {
                             </section>
 
                             <section className="fc-card" aria-labelledby="fc-soil">
-                                <h2 id="fc-soil">Soil</h2>
-                                <p className="fc-legend">Estimates for the top layer of soil. They are the same every year.</p>
+                                <div className="fc-card-head">
+                                    <h2 id="fc-soil">Soil Health Diagnostics & Action Advisory</h2>
+                                    <span className="fc-badge fc-badge-action">Actionable Insights</span>
+                                </div>
+                                <p className="fc-legend">Diagnostic assessment for topsoil layer with direct management recommendations for field officers & farmers.</p>
                                 <div className="fc-soil">
                                     {result.soil.map((item) => (
-                                        <div className="fc-soil-card" key={item.key}>
-                                            <span>{item.label}</span>
+                                        <div className={`fc-soil-card fc-soil-status-${item.status || 'good'}`} key={item.key}>
+                                            <div className="fc-soil-top">
+                                                <span>{item.label}</span>
+                                                <span className={`fc-status-pill fc-pill-${item.status || 'good'}`}>{item.reading}</span>
+                                            </div>
                                             <b>{formatNumber(item.value, 1)} <small>{item.unit}</small></b>
-                                            <em>{item.reading}</em>
+                                            {item.action && (
+                                                <div className="fc-soil-action">
+                                                    <strong>Recommended Action:</strong> {item.action}
+                                                </div>
+                                            )}
                                             <p>{item.meaning}</p>
                                         </div>
                                     ))}

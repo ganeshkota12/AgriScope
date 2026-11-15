@@ -2,11 +2,21 @@ import { useEffect, useRef, useState } from 'react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import { Bar, BarChart, CartesianGrid, Cell, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
-import { displayDistrict, formatNumber, getJson } from './analysisApi.js'
+import { displayDistrict, getJson } from './analysisApi.js'
 import { AiLanguageSwitch, useAiLanguage } from './AiLanguage.jsx'
 import './Satellite.css'
 
 const API_URL = (import.meta.env?.VITE_API_URL || 'http://127.0.0.1:8000').replace(/\/$/, '')
+
+function getNdviHealth(ndvi) {
+    if (ndvi < 0.3) {
+        return { label: 'Sparse / Bare Soil', status: 'alert', desc: 'Initial germination or vegetation stress.' }
+    }
+    if (ndvi < 0.5) {
+        return { label: 'Moderate Canopy', status: 'warning', desc: 'Vegetative development stage.' }
+    }
+    return { label: 'Healthy & Dense', status: 'good', desc: 'Peak photosynthetic vigor & dense canopy.' }
+}
 
 export default function Satellite() {
     const [data, setData] = useState(null)
@@ -50,8 +60,11 @@ export default function Satellite() {
     return (
         <div className="sat-page">
             <header className="sat-head">
-                <span className="sat-kicker">Satellite</span>
-                <h1>How green are rice fields?</h1>
+                <span className="sat-kicker">Satellite Remote Sensing</span>
+                <h1>Crop Canopy & Vegetation Health Index (NDVI)</h1>
+                <p className="sat-subtitle">
+                    Sentinel/MODIS-derived NDVI (Normalized Difference Vegetation Index) monitoring rice vegetative health across Andhra Pradesh.
+                </p>
             </header>
 
             <section className="sat-filters" aria-labelledby="sat-choose-title">
@@ -80,6 +93,27 @@ export default function Satellite() {
 
                     {view && (
                         <>
+                            <section className="sat-card sat-guide-card" aria-labelledby="sat-guide">
+                                <h2 id="sat-guide">What do NDVI Satellite Values mean for Farmers & Planners?</h2>
+                                <div className="sat-guide-grid">
+                                    <div className="sat-guide-item sat-guide-alert">
+                                        <div className="sat-guide-val">0.0 &ndash; 0.30</div>
+                                        <strong>Bare Ground / Emergence</strong>
+                                        <p>Early sowing or crop stress / moisture shortage. Low chlorophyll cover.</p>
+                                    </div>
+                                    <div className="sat-guide-item sat-guide-warning">
+                                        <div className="sat-guide-val">0.31 &ndash; 0.50</div>
+                                        <strong>Moderate Vegetative Growth</strong>
+                                        <p>Active tillering stage; canopy expanding, normal nitrogen and water response.</p>
+                                    </div>
+                                    <div className="sat-guide-item sat-guide-good">
+                                        <div className="sat-guide-val">0.51 &ndash; 1.00</div>
+                                        <strong>Peak Canopy & Health</strong>
+                                        <p>Dense green canopy at panicle initiation/flowering; optimal biomass accumulation.</p>
+                                    </div>
+                                </div>
+                            </section>
+
                             <section className="sat-card" aria-labelledby="sat-seasons">
                                 <h2 id="sat-seasons">Greenness in each season</h2>
                                 <p className="sat-answer">{view.headline}</p>
@@ -103,14 +137,18 @@ export default function Satellite() {
                                 <h2 id="sat-rank">Districts in {view.season}</h2>
                                 <p className="sat-answer">{view.rankSentence}</p>
                                 <div className="sat-rank">
-                                    {view.ranking.map((row) => (
-                                        <div key={row.district} className={`sat-rk${row.district === view.district ? ' is-me' : ''}`}>
-                                            <span className="sat-rk-n">{row.rank}</span>
-                                            <span className="sat-rk-name">{displayDistrict(row.district)}</span>
-                                            <span className="sat-rk-track"><i style={{ width: `${row.ndvi * 100}%` }} /></span>
-                                            <b>{row.ndvi.toFixed(2)}</b>
-                                        </div>
-                                    ))}
+                                    {view.ranking.map((row) => {
+                                        const health = getNdviHealth(row.ndvi);
+                                        return (
+                                            <div key={row.district} className={`sat-rk${row.district === view.district ? ' is-me' : ''}`}>
+                                                <span className="sat-rk-n">{row.rank}</span>
+                                                <span className="sat-rk-name">{displayDistrict(row.district)}</span>
+                                                <span className="sat-rk-track"><i style={{ width: `${row.ndvi * 100}%` }} /></span>
+                                                <b>{row.ndvi.toFixed(2)}</b>
+                                                <span className={`sat-status-badge sat-badge-${health.status}`}>{health.label}</span>
+                                            </div>
+                                        );
+                                    })}
                                 </div>
                             </section>
 

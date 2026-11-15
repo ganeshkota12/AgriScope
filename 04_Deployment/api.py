@@ -1644,35 +1644,69 @@ SOIL_FIELD_COLUMNS = {
 
 
 def soil_reading(key, value):
-    """Plain reading and one practical meaning for a soil value (general soil science)."""
+    """Plain reading, severity status, and practical action for farmers and officers."""
     if key == "ph":
         if value < 6.0:
             return (
                 "Acidic",
-                "Some nutrients, such as phosphorus, become less available. A soil test shows whether lime is worth adding.",
+                "Soil acidity locks phosphorus and micronutrients. Broadcast agricultural lime (calcium carbonate) before sowing.",
+                "warning",
+                "Apply Lime",
             )
         if value <= 7.5:
-            return "Near neutral", "Most crops grow well in this range."
+            return (
+                "Near Neutral",
+                "Optimal pH for nutrient uptake. Most crops thrive here without amendment.",
+                "good",
+                "Maintain Practice",
+            )
         return (
             "Alkaline",
-            "Some micronutrients, such as zinc, can become less available. A soil test helps choose the right fertiliser.",
+            "Alkalinity reduces zinc, iron, and phosphorus availability. Add gypsum and incorporate organic compost.",
+            "warning",
+            "Add Gypsum/Compost",
         )
     if key == "organic_carbon":
-        if value < 5:
+        if value < 5.0:
             return (
-                "Low",
-                "Organic matter is low. Farmyard manure or compost added over time helps.",
+                "Low Carbon",
+                "Critically low soil organic matter reduces moisture and fertilizer retention. Apply 5-10 t/ha farmyard manure.",
+                "alert",
+                "Add FYM / Compost",
             )
         if value <= 7.5:
-            return "Medium", "Keep adding organic matter to hold this level."
-        return "High", "Good for holding water and nutrients."
-    if value < 20:
-        return "Sandy", "Water drains quickly, so irrigate little and often."
-    if value <= 35:
-        return "Balanced", "Holds water and nutrients well."
+            return (
+                "Moderate Carbon",
+                "Adequate carbon level. Maintain by green manuring (Dhaincha/Sunhemp) between crop cycles.",
+                "good",
+                "Green Manuring",
+            )
+        return (
+            "High Carbon",
+            "Rich organic fertility and high microbial activity. Ideal moisture and nutrient buffer.",
+            "good",
+            "Optimal Health",
+        )
+    # Clay texture
+    if value < 20.0:
+        return (
+            "Sandy / Light",
+            "Coarse texture with rapid drainage and low nutrient hold. Practice split fertilizer doses and frequent light watering.",
+            "warning",
+            "Split Fertigation",
+        )
+    if value <= 35.0:
+        return (
+            "Loamy / Balanced",
+            "Well-balanced water holding capacity and aeration. Highly productive for both Rice and Chilli.",
+            "good",
+            "Ideal Texture",
+        )
     return (
-        "Heavy clay",
-        "Holds water well but drains slowly. Avoid working it when wet.",
+        "Heavy Clay",
+        "Dense structure prone to waterlogging and compaction. Ensure drainage channels are excavated to prevent root rot.",
+        "warning",
+        "Improve Drainage",
     )
 
 
@@ -1775,7 +1809,7 @@ def field_overview(district: str, crop: str, season: str, year: int | None = Non
             state = medians[column].median()
             if pd.isna(value):
                 continue
-            reading, meaning = soil_reading(key, float(value))
+            reading, meaning, status, action = soil_reading(key, float(value))
             soil.append(
                 {
                     "key": key,
@@ -1785,6 +1819,8 @@ def field_overview(district: str, crop: str, season: str, year: int | None = Non
                     "statewide_median": round(float(state), 2),
                     "reading": reading,
                     "meaning": meaning,
+                    "status": status,
+                    "action": action,
                 }
             )
 

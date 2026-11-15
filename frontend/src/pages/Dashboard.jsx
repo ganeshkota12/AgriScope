@@ -1604,22 +1604,22 @@ function InsightCard({ item, number }) {
         <article className="as-ai-card">
             <div className="as-ai-head">
                 <span className="as-ai-num" aria-hidden="true">
-                    {number}
+                    #{number}
                 </span>
-                <h4>{item.title}</h4>
+                <span className="as-ai-badge">{item.title}</span>
             </div>
             <div className="as-ai-part as-ai-data">
-                <span>What the data shows</span>
+                <span className="as-ai-sublabel">Data Fact:</span>
                 <p>{item.data}</p>
             </div>
             {item.meaning && (
                 <div className="as-ai-part as-ai-meaning">
-                    <span>What it may mean</span>
+                    <span className="as-ai-sublabel">Practical Meaning:</span>
                     <p>{item.meaning}</p>
                 </div>
             )}
             {item.figures_check === "unverified" && (
-                <p className="as-warn">Please double-check the numbers in this one against the charts above.</p>
+                <p className="as-warn">Please verify figures against historical data tables.</p>
             )}
         </article>
     );
@@ -1630,14 +1630,17 @@ function SuggestionCard({ item, number }) {
         <article className="as-ai-card">
             <div className="as-ai-head">
                 <span className="as-ai-num" aria-hidden="true">
-                    {number}
+                    #{number}
                 </span>
-                <h4>{item.title}</h4>
+                <span className="as-ai-badge as-ai-badge-action">{item.title}</span>
             </div>
-            <p className="as-ai-action">{item.action}</p>
+            <div className="as-ai-part as-ai-data">
+                <span className="as-ai-sublabel">Recommended Action:</span>
+                <p className="as-ai-action">{item.action}</p>
+            </div>
             {item.why && (
                 <div className="as-ai-part as-ai-meaning">
-                    <span>Why</span>
+                    <span className="as-ai-sublabel">Why this helps:</span>
                     <p>{item.why}</p>
                 </div>
             )}
@@ -3273,10 +3276,33 @@ const DASHBOARD_CSS = `
     border-radius: 50%;
     background: #e4f0e2;
     color: ${COLOR.a};
-    font-size: 12.5px;
+    font-size: 12px;
     font-weight: 750;
     display: grid;
     place-items: center;
+}
+.as-ai-badge {
+    display: inline-flex;
+    align-items: center;
+    background: #e8f4ec;
+    color: #1f4d32;
+    border: 1px solid #c2dfcb;
+    font-size: 13.5px;
+    font-weight: 750;
+    padding: 3px 10px;
+    border-radius: 6px;
+    letter-spacing: 0.01em;
+}
+.as-ai-badge-action {
+    background: #fdf5e6;
+    color: #92540e;
+    border-color: #f7d8a7;
+}
+.as-ai-sublabel {
+    font-size: 11px !important;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 800 !important;
 }
 .as-ai-card h4 { font-size: 15.5px; font-weight: 700; letter-spacing: -0.2px; }
 .as-ai-part { display: grid; gap: 2px; padding-left: 12px; border-left: 3px solid #cfe0cb; }
