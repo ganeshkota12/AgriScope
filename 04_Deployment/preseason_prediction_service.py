@@ -5,7 +5,7 @@ import joblib
 import pandas as pd
 
 ROOT = Path(r"C:\MINI_PROJECT_FINAL")
-DATA_PATH = ROOT / "02_Integrated_Data" / "Seasonal_Yield_Preseason_Weather.csv"
+DATA_PATH = ROOT / "02_Integrated_Data" / "FINAL_OPTIMIZED_INTEGRATED_MASTER.csv"
 MODEL_DIR = ROOT / "04_Deployment" / "preseason_models"
 
 CROP_FILES = {

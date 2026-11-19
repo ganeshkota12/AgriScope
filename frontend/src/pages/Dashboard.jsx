@@ -1528,7 +1528,516 @@ function ComparisonSection({ view, ahead }) {
     );
 }
 
-function StartPanel() {
+/* -------------------------------------------------------------------------- */
+/*  Feature 1: Crop Decision Advisor (Rice vs Chilli)                         */
+/* -------------------------------------------------------------------------- */
+
+function CropAdvisorSection({ district, season }) {
+    const [data, setData] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const [err, setErr] = useState("");
+
+    const targetDistrict = district || "GUNTUR";
+    const targetSeason = season || "Kharif";
+
+    useEffect(() => {
+        let active = true;
+        setLoading(true);
+        setErr("");
+        fetch(`${API_URL}/dashboard/crop-advisor?district=${encodeURIComponent(targetDistrict)}&season=${encodeURIComponent(targetSeason)}`)
+            .then((res) => {
+                if (!res.ok) throw new Error("Could not load crop advisor data.");
+                return res.json();
+            })
+            .then((json) => {
+                if (active) {
+                    setData(json);
+                    setLoading(false);
+                }
+            })
+            .catch((e) => {
+                if (active) {
+                    setErr(e.message);
+                    setLoading(false);
+                }
+            });
+        return () => { active = false; };
+    }, [targetDistrict, targetSeason]);
+
+    return (
+        <section className="as-block as-advisor-block" aria-labelledby="as-crop-advisor">
+            <div className="as-sec-head">
+                <div>
+                    <span className="as-pill as-pill-green">Farmer Decision Support</span>
+                    <h2 id="as-crop-advisor">Should You Grow Rice or Dry Chilli?</h2>
+                    <p className="as-sec-sub">
+                        Agronomic suitability, water requirements & expected returns for <strong>{displayDistrict(targetDistrict)}</strong> ({targetSeason} season).
+                    </p>
+                </div>
+            </div>
+
+            {loading ? (
+                <div className="as-card as-loading-line"><Spinner /> Calculating district crop suitability...</div>
+            ) : err ? (
+                <Alert title="Crop Advisor Unavailable">{err}</Alert>
+            ) : data ? (
+                <div className="as-advisor-container">
+                    <div className="as-advisor-verdict-box">
+                        <div className="as-verdict-header">
+                            <span className="as-verdict-badge">Optimal Pick: {data.recommended_crop}</span>
+                            <span className="as-zone-tag">{data.agro_zone} ({data.irrigation_security_pct}% Assured Irrigation)</span>
+                        </div>
+                        <p className="as-verdict-desc">{data.advisory_summary}</p>
+                        <div className="as-soil-summary">
+                            <strong>Regional Soil Characteristics:</strong> {data.soil_profile}
+                        </div>
+                    </div>
+
+                    <div className="as-advisor-grid">
+                        <div className={`as-advisor-card ${data.recommended_crop === "Rice" ? "is-recommended" : ""}`}>
+                            <div className="as-card-crop-head">
+                                <h3>🌾 Rice (Paddy)</h3>
+                                {data.recommended_crop === "Rice" && <span className="as-badge-rec">Recommended</span>}
+                            </div>
+                            <div className="as-metric-row">
+                                <span>Expected Yield:</span>
+                                <b>{fmt(data.rice.average_yield_kg_ha, 0)} kg/ha</b>
+                            </div>
+                            <div className="as-info-item">
+                                <small>Water Need:</small>
+                                <p>{data.rice.water_requirement}</p>
+                            </div>
+                            <div className="as-info-item">
+                                <small>Market & Risk:</small>
+                                <p>{data.rice.risk_profile}</p>
+                            </div>
+                            <div className="as-info-item">
+                                <small>Recommended Sowing:</small>
+                                <p>{data.rice.best_sowing_window}</p>
+                            </div>
+                        </div>
+
+                        <div className={`as-advisor-card ${data.recommended_crop === "Dry chillies" ? "is-recommended" : ""}`}>
+                            <div className="as-card-crop-head">
+                                <h3>🌶️ Dry Chilli</h3>
+                                {data.recommended_crop === "Dry chillies" && <span className="as-badge-rec">Recommended</span>}
+                            </div>
+                            <div className="as-metric-row">
+                                <span>Expected Yield:</span>
+                                <b>{fmt(data.dry_chillies.average_yield_kg_ha, 0)} kg/ha</b>
+                            </div>
+                            <div className="as-info-item">
+                                <small>Water Need:</small>
+                                <p>{data.dry_chillies.water_requirement}</p>
+                            </div>
+                            <div className="as-info-item">
+                                <small>Market & Risk:</small>
+                                <p>{data.dry_chillies.risk_profile}</p>
+                            </div>
+                            <div className="as-info-item">
+                                <small>Recommended Sowing:</small>
+                                <p>{data.dry_chillies.best_sowing_window}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            ) : null}
+        </section>
+    );
+}
+
+/* -------------------------------------------------------------------------- */
+/*  Feature 2: Climate Risk & What-If Simulator                               */
+/* -------------------------------------------------------------------------- */
+
+function ClimateSimulatorSection({ district, crop, season }) {
+    const [rainDelta, setRainDelta] = useState(0);
+    const [tempDelta, setTempDelta] = useState(0);
+    const [result, setResult] = useState(null);
+    const [loading, setLoading] = useState(false);
+
+    const targetDistrict = district || "GUNTUR";
+    const targetCrop = crop || "Rice";
+    const targetSeason = season || "Kharif";
+
+    useEffect(() => {
+        let active = true;
+        setLoading(true);
+        fetch(`${API_URL}/dashboard/climate-simulator`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                district: targetDistrict,
+                crop: targetCrop,
+                season: targetSeason,
+                rainfall_change_pct: Number(rainDelta),
+                temperature_change_c: Number(tempDelta),
+            }),
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                if (active) {
+                    setResult(data);
+                    setLoading(false);
+                }
+            })
+            .catch(() => {
+                if (active) setLoading(false);
+            });
+        return () => { active = false; };
+    }, [targetDistrict, targetCrop, targetSeason, rainDelta, tempDelta]);
+
+    return (
+        <section className="as-block as-simulator-block" aria-labelledby="as-climate-sim">
+            <div className="as-sec-head">
+                <div>
+                    <span className="as-pill as-pill-amber">Interactive Simulation Sandbox</span>
+                    <h2 id="as-climate-sim">Climate Stress & What-If Scenario Simulator</h2>
+                    <p className="as-sec-sub">
+                        Adjust precipitation & heat stress sliders to simulate yield impact for <strong>{displayDistrict(targetDistrict)}</strong> ({targetCrop}).
+                    </p>
+                </div>
+            </div>
+
+            <div className="as-sim-layout">
+                <div className="as-sim-controls as-card">
+                    <h4>Adjust Climate Sliders</h4>
+                    <div className="as-slider-group">
+                        <div className="as-slider-label">
+                            <span>Precipitation / Monsoon Shift:</span>
+                            <b>{rainDelta > 0 ? `+${rainDelta}%` : `${rainDelta}%`}</b>
+                        </div>
+                        <input
+                            type="range"
+                            min="-40"
+                            max="40"
+                            step="5"
+                            value={rainDelta}
+                            onChange={(e) => setRainDelta(e.target.value)}
+                            className="as-slider"
+                        />
+                        <div className="as-slider-scale">
+                            <span>Severe Drought (-40%)</span>
+                            <span>Normal (0%)</span>
+                            <span>Excess Rain (+40%)</span>
+                        </div>
+                    </div>
+
+                    <div className="as-slider-group" style={{ marginTop: "18px" }}>
+                        <div className="as-slider-label">
+                            <span>Heat Stress / Mean Temp Shift:</span>
+                            <b>{tempDelta > 0 ? `+${tempDelta}°C` : `${tempDelta}°C`}</b>
+                        </div>
+                        <input
+                            type="range"
+                            min="-2"
+                            max="4"
+                            step="0.5"
+                            value={tempDelta}
+                            onChange={(e) => setTempDelta(e.target.value)}
+                            className="as-slider"
+                        />
+                        <div className="as-slider-scale">
+                            <span>Cooler (-2°C)</span>
+                            <span>Normal (0°C)</span>
+                            <span>Extreme Heat (+4°C)</span>
+                        </div>
+                    </div>
+
+                    <button
+                        type="button"
+                        className="as-btn as-btn-secondary"
+                        style={{ marginTop: "16px" }}
+                        onClick={() => { setRainDelta(0); setTempDelta(0); }}
+                    >
+                        Reset Sliders to Normal
+                    </button>
+                </div>
+
+                <div className="as-sim-output as-card">
+                    {loading && !result ? (
+                        <div className="as-loading-line"><Spinner /> Simulating yield...</div>
+                    ) : result ? (
+                        <div className="as-sim-result">
+                            <div className="as-sim-header">
+                                <span
+                                    className="as-sim-badge"
+                                    style={{ background: `${result.status_color}18`, color: result.status_color, border: `1px solid ${result.status_color}40` }}
+                                >
+                                    {result.risk_level}
+                                </span>
+                                <span className="as-sim-crop-tag">{result.crop} &bull; {displayDistrict(result.district)}</span>
+                            </div>
+
+                            <div className="as-sim-hero-stat">
+                                <div className="as-stat-box">
+                                    <small>Baseline Yield</small>
+                                    <span>{fmt(result.baseline_yield_kg_ha, 0)} kg/ha</span>
+                                </div>
+                                <div className="as-sim-arrow">&rarr;</div>
+                                <div className="as-stat-box is-projected">
+                                    <small>Projected Yield</small>
+                                    <span style={{ color: result.status_color }}>
+                                        {fmt(result.simulated_yield_kg_ha, 0)} kg/ha
+                                    </span>
+                                </div>
+                                <div className="as-sim-shift" style={{ color: result.percent_change >= 0 ? "#2f6b45" : "#b93434" }}>
+                                    <b>{result.percent_change > 0 ? `+${result.percent_change}%` : `${result.percent_change}%`}</b>
+                                    <small>({result.yield_change_kg_ha > 0 ? `+${fmt(result.yield_change_kg_ha, 0)}` : fmt(result.yield_change_kg_ha, 0)} kg/ha)</small>
+                                </div>
+                            </div>
+
+                            <div className="as-mitigation-box">
+                                <strong>Recommended Action & Risk Mitigation:</strong>
+                                <p>{result.mitigation_advice}</p>
+                            </div>
+                        </div>
+                    ) : null}
+                </div>
+            </div>
+        </section>
+    );
+}
+
+/* -------------------------------------------------------------------------- */
+/*  Feature 4: Sowing Window & Sowing Delay Penalty Advisor                   */
+/* -------------------------------------------------------------------------- */
+
+function SowingAdvisorSection({ district, crop, season }) {
+    const [delayDays, setDelayDays] = useState(0);
+    const [data, setData] = useState(null);
+    const [loading, setLoading] = useState(false);
+
+    const targetDistrict = district || "GUNTUR";
+    const targetCrop = crop || "Rice";
+    const targetSeason = season || "Kharif";
+
+    useEffect(() => {
+        let active = true;
+        setLoading(true);
+        const params = new URLSearchParams({
+            district: targetDistrict,
+            crop: targetCrop,
+            season: targetSeason,
+            delay_days: String(delayDays),
+        });
+        fetch(`${API_URL}/dashboard/sowing-advisor?${params.toString()}`)
+            .then((r) => r.json())
+            .then((res) => {
+                if (active) {
+                    setData(res);
+                    setLoading(false);
+                }
+            })
+            .catch(() => {
+                if (active) setLoading(false);
+            });
+        return () => { active = false; };
+    }, [targetDistrict, targetCrop, targetSeason, delayDays]);
+
+    return (
+        <section className="as-block as-advisor-block" aria-labelledby="as-sowing-advisor-heading">
+            <div className="as-sec-head">
+                <div>
+                    <span className="as-pill as-pill-amber">Crop Calendar & Timing Optimization</span>
+                    <h2 id="as-sowing-advisor-heading">Sowing Window & Sowing Delay Penalty Calculator</h2>
+                    <p className="as-sec-sub">
+                        Evaluate recommended sowing dates, critical cutoffs, seed varieties, and yield loss penalties for <strong>{displayDistrict(targetDistrict)}</strong> ({targetCrop} &bull; {targetSeason}).
+                    </p>
+                </div>
+            </div>
+
+            {loading && !data ? (
+                <div className="as-loading-line"><Spinner /> Calculating agronomic calendar...</div>
+            ) : data ? (
+                <div className="as-sowing-grid">
+                    <div className="as-card as-sowing-meta">
+                        <div className="as-sowing-pill-row">
+                            <span className="as-badge-rec">Agronomic Window</span>
+                            <span className="as-crop-indicator">{data.crop} &bull; {data.season}</span>
+                        </div>
+                        <div className="as-sowing-stat-item">
+                            <small>Optimal Sowing Window</small>
+                            <strong>{data.optimal_sowing_window}</strong>
+                        </div>
+                        <div className="as-sowing-stat-item">
+                            <small>Absolute Critical Cutoff</small>
+                            <span className="as-cutoff-text">{data.critical_cutoff}</span>
+                        </div>
+                        <div className="as-sowing-stat-item">
+                            <small>Daily Delay Yield Penalty</small>
+                            <span>{data.daily_yield_penalty_pct}% loss per day late</span>
+                        </div>
+                        <div className="as-varieties-list">
+                            <small>Recommended Seed Varieties:</small>
+                            <div className="as-var-tags">
+                                {data.recommended_varieties?.map((v) => (
+                                    <span key={v} className="as-tag-var">{v}</span>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="as-card as-sowing-calculator">
+                        <h4>Simulate Sowing Delay Impact</h4>
+                        <div className="as-slider-group" style={{ marginTop: "12px" }}>
+                            <div className="as-slider-label">
+                                <span>Days Delayed Past Ideal Window:</span>
+                                <b>{delayDays} Days Late</b>
+                            </div>
+                            <input
+                                type="range"
+                                min="0"
+                                max="35"
+                                step="1"
+                                value={delayDays}
+                                onChange={(e) => setDelayDays(Number(e.target.value))}
+                                className="as-slider"
+                            />
+                            <div className="as-slider-scale">
+                                <span>0 Days (On Time)</span>
+                                <span>15 Days</span>
+                                <span>35 Days (Severe Delay)</span>
+                            </div>
+                        </div>
+
+                        <div className="as-delay-summary-box">
+                            <div className="as-delay-kpi">
+                                <small>Yield Penalty:</small>
+                                <span className={delayDays > 0 ? "as-penalty-red" : "as-penalty-green"}>
+                                    {delayDays > 0 ? `-${data.total_penalty_pct}%` : "0% (Optimal)"}
+                                </span>
+                            </div>
+                            <div className="as-delay-kpi">
+                                <small>Est. Yield Loss:</small>
+                                <span>{data.loss_kg_ha ? `~${fmt(data.loss_kg_ha, 0)} kg/ha` : "No Loss"}</span>
+                            </div>
+                        </div>
+
+                        <div className="as-sowing-advice">
+                            <strong>Agronomist Action Recommendation:</strong>
+                            <p>{data.advice}</p>
+                        </div>
+                    </div>
+                </div>
+            ) : null}
+        </section>
+    );
+}
+
+/* -------------------------------------------------------------------------- */
+/*  Feature 5: Fertilizer N-P-K & Soil Health Cost-Saver                      */
+/* -------------------------------------------------------------------------- */
+
+function FertilizerSaverSection({ district, crop }) {
+    const [data, setData] = useState(null);
+    const [loading, setLoading] = useState(false);
+
+    const targetDistrict = district || "GUNTUR";
+    const targetCrop = crop || "Rice";
+
+    useEffect(() => {
+        let active = true;
+        setLoading(true);
+        const params = new URLSearchParams({
+            district: targetDistrict,
+            crop: targetCrop,
+        });
+        fetch(`${API_URL}/dashboard/fertilizer-saver?${params.toString()}`)
+            .then((r) => r.json())
+            .then((res) => {
+                if (active) {
+                    setData(res);
+                    setLoading(false);
+                }
+            })
+            .catch(() => {
+                if (active) setLoading(false);
+            });
+        return () => { active = false; };
+    }, [targetDistrict, targetCrop]);
+
+    return (
+        <section className="as-block as-fertilizer-block" aria-labelledby="as-fert-heading">
+            <div className="as-sec-head">
+                <div>
+                    <span className="as-pill as-pill-green">ISRIC SoilGrids &times; ANGRAU Precision Nutrition</span>
+                    <h2 id="as-fert-heading">Fertilizer N-P-K & Soil Health Cost-Saver</h2>
+                    <p className="as-sec-sub">
+                        Site-specific nutrient dosage, organic fertilizer substitution, and soil amendment recommendations for <strong>{displayDistrict(targetDistrict)}</strong> ({targetCrop}).
+                    </p>
+                </div>
+            </div>
+
+            {loading && !data ? (
+                <div className="as-loading-line"><Spinner /> Analyzing soil profile & nutrient budget...</div>
+            ) : data ? (
+                <div className="as-fert-grid">
+                    <div className="as-card as-soil-diagnostics">
+                        <div className="as-fert-head">
+                            <span className="as-soil-status-tag" style={{ border: `1px solid ${data.soil_status.status_color}` }}>
+                                Soil Status: {data.soil_status.soc_classification}
+                            </span>
+                            <span className="as-soil-ph-badge">pH {data.soil_status.ph_in_water} ({data.soil_status.ph_classification})</span>
+                        </div>
+
+                        <div className="as-soil-props">
+                            <div className="as-soil-prop-row">
+                                <span>Soil Organic Carbon (SOC):</span>
+                                <b>{data.soil_status.soc_g_per_kg} g/kg</b>
+                            </div>
+                            <div className="as-soil-prop-row">
+                                <span>Topsoil Texture (Sand / Clay):</span>
+                                <b>{data.soil_status.sand_fraction_pct}% sand / {data.soil_status.clay_fraction_pct}% clay</b>
+                            </div>
+                            <div className="as-soil-prop-row">
+                                <span>Cation Exchange Capacity:</span>
+                                <b>{data.soil_status.cation_exchange_capacity} cmol/kg</b>
+                            </div>
+                        </div>
+
+                        <div className="as-amendment-box">
+                            <strong>Soil Condition & Amendment Remedy:</strong>
+                            <p>{data.soil_status.amendment_recommendation}</p>
+                        </div>
+                    </div>
+
+                    <div className="as-card as-npk-nutrition">
+                        <h4>Recommended Dosage (RDF kg/ha)</h4>
+                        <div className="as-npk-boxes">
+                            <div className="as-npk-col">
+                                <span className="as-npk-val">{data.standard_rdf_kg_ha.nitrogen}</span>
+                                <small>N (Nitrogen)</small>
+                            </div>
+                            <div className="as-npk-col">
+                                <span className="as-npk-val">{data.standard_rdf_kg_ha.phosphorus}</span>
+                                <small>P (P₂O₅)</small>
+                            </div>
+                            <div className="as-npk-col">
+                                <span className="as-npk-val">{data.standard_rdf_kg_ha.potassium}</span>
+                                <small>K (K₂O)</small>
+                            </div>
+                        </div>
+
+                        <div className="as-savings-banner">
+                            <div className="as-savings-icon">💰</div>
+                            <div>
+                                <b>{data.organic_substitution.potential_urea_savings_bags_per_ha} Bags of Urea Saved / ha</b>
+                                <p>{data.organic_substitution.explanation}</p>
+                            </div>
+                        </div>
+
+                        <div className="as-fym-note">
+                            <strong>Organic Recommendation:</strong> {data.organic_substitution.fym_recommended_tons_per_ha} tons/ha Farmyard Manure (FYM) or compost before puddling/transplanting.
+                        </div>
+                    </div>
+                </div>
+            ) : null}
+        </section>
+    );
+}
+
+function StartPanel({ defaultDistrict, defaultSeason }) {
     return (
         <section className="as-start" aria-label="How to start">
             <span className="as-start-icon" aria-hidden="true">
@@ -1941,6 +2450,10 @@ function Report({ view, status, error, overview, overviewStatus, ai, save }) {
                 sectionRef={ai.sectionRef}
             />
             <SuggestionsSection status={ai.status} data={ai.data} />
+
+            {/* Practical Decision Features: Crop Advisor & Climate Risk Simulator */}
+            <CropAdvisorSection district={view.nameA} season={view.season} />
+            <ClimateSimulatorSection district={view.nameA} crop={view.crop} season={view.season} />
 
             <p className="as-footnote">
                 These are observed differences in the records. They do not show why the districts differ.
@@ -2808,7 +3321,14 @@ export default function Dashboard() {
                                             <Spinner /> Loading the comparison{SYM.ellipsis}
                                         </div>
                                     ) : (
-                                        <StartPanel />
+                                        <>
+                                            <StartPanel />
+                                            {/* Immediate decision support available on load even before picking comparison */}
+                                            <CropAdvisorSection district={filters.districtA || "GUNTUR"} season={filters.season || "Kharif"} />
+                                            <ClimateSimulatorSection district={filters.districtA || "GUNTUR"} crop={filters.crop || "Rice"} season={filters.season || "Kharif"} />
+                                            <SowingAdvisorSection district={filters.districtA || "GUNTUR"} crop={filters.crop || "Rice"} season={filters.season || "Kharif"} />
+                                            <FertilizerSaverSection district={filters.districtA || "GUNTUR"} crop={filters.crop || "Rice"} />
+                                        </>
                                     )}
                                 </>
                             )}
@@ -3585,5 +4105,508 @@ const DASHBOARD_CSS = `
     .as-grid-2, .as-cmp-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .as-ai-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .as-ai-grid > :last-child:nth-child(odd) { grid-column: 1 / -1; }
+}
+
+/* Feature 1: Crop Advisor Styles */
+.as-advisor-block {
+    margin-top: 18px;
+    background: #ffffff;
+    border: 1px solid #dce5d9;
+    border-radius: 18px;
+    padding: 20px 22px;
+}
+
+.as-pill {
+    display: inline-block;
+    padding: 3px 9px;
+    font-size: 11px;
+    font-weight: 750;
+    text-transform: uppercase;
+    border-radius: 6px;
+    margin-bottom: 6px;
+}
+.as-pill-green { background: #e5f5eb; color: #1f6b3b; border: 1px solid #b7e5c5; }
+.as-pill-amber { background: #fdf5e6; color: #92540e; border: 1px solid #f6dbad; }
+
+.as-advisor-container {
+    display: grid;
+    gap: 16px;
+    margin-top: 14px;
+}
+
+.as-advisor-verdict-box {
+    background: #f7faf6;
+    border: 1.5px solid #c9dec5;
+    border-radius: 14px;
+    padding: 16px 18px;
+}
+
+.as-verdict-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.as-verdict-badge {
+    font-size: 14px;
+    font-weight: 800;
+    color: #19532d;
+    background: #d8eed6;
+    padding: 4px 10px;
+    border-radius: 8px;
+}
+
+.as-zone-tag {
+    font-size: 12px;
+    font-weight: 650;
+    color: #556857;
+}
+
+.as-verdict-desc {
+    font-size: 14px;
+    color: #27382a;
+    line-height: 1.5;
+    margin: 8px 0 6px;
+}
+
+.as-soil-summary {
+    font-size: 12.5px;
+    color: #5c6c5e;
+    border-top: 1px solid #e1ecde;
+    padding-top: 8px;
+}
+
+.as-advisor-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 14px;
+}
+
+.as-advisor-card {
+    border: 1px solid #e2ebd0;
+    border-radius: 14px;
+    padding: 16px;
+    background: #ffffff;
+    display: grid;
+    gap: 10px;
+}
+
+.as-advisor-card.is-recommended {
+    border: 2px solid #2f6b45;
+    background: #fcfdfc;
+    box-shadow: 0 4px 14px rgba(47, 107, 69, 0.08);
+}
+
+.as-card-crop-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.as-card-crop-head h3 {
+    margin: 0;
+    font-size: 17px;
+    font-weight: 800;
+}
+
+.as-badge-rec {
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    background: #2f6b45;
+    color: #fff;
+    padding: 2px 7px;
+    border-radius: 6px;
+}
+
+.as-metric-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #edf2ea;
+}
+
+.as-metric-row span { font-size: 12.5px; color: #617363; }
+.as-metric-row b { font-size: 18px; color: #1d3322; }
+
+.as-info-item small {
+    display: block;
+    font-size: 11px;
+    font-weight: 750;
+    text-transform: uppercase;
+    color: #7b8c7d;
+    margin-bottom: 2px;
+}
+.as-info-item p {
+    margin: 0;
+    font-size: 12.5px;
+    color: #314234;
+    line-height: 1.4;
+}
+
+/* Feature 2: Climate Simulator Styles */
+.as-simulator-block {
+    margin-top: 18px;
+    background: #ffffff;
+    border: 1px solid #dce5d9;
+    border-radius: 18px;
+    padding: 20px 22px;
+}
+
+.as-sim-layout {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 16px;
+    margin-top: 14px;
+}
+
+.as-sim-controls {
+    padding: 16px 18px;
+}
+
+.as-sim-controls h4 {
+    margin: 0 0 12px;
+    font-size: 15px;
+    font-weight: 750;
+}
+
+.as-slider-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    font-weight: 650;
+    margin-bottom: 6px;
+}
+
+.as-slider {
+    width: 100%;
+    accent-color: #2f6b45;
+    cursor: pointer;
+}
+
+.as-slider-scale {
+    display: flex;
+    justify-content: space-between;
+    font-size: 10.5px;
+    color: #7b8c7d;
+    margin-top: 4px;
+}
+
+.as-sim-output {
+    padding: 16px 18px;
+}
+
+.as-sim-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.as-sim-badge {
+    font-size: 12px;
+    font-weight: 800;
+    text-transform: uppercase;
+    padding: 3px 9px;
+    border-radius: 6px;
+}
+
+.as-sim-crop-tag {
+    font-size: 12.5px;
+    font-weight: 700;
+    color: #556857;
+}
+
+.as-sim-hero-stat {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 14px;
+    background: #f7faf6;
+    border-radius: 12px;
+    margin-bottom: 12px;
+}
+
+.as-stat-box small {
+    display: block;
+    font-size: 11px;
+    color: #6d7f6f;
+    text-transform: uppercase;
+}
+
+.as-stat-box span {
+    font-size: 16px;
+    font-weight: 750;
+}
+
+.as-stat-box.is-projected span {
+    font-size: 20px;
+    font-weight: 850;
+}
+
+.as-sim-arrow {
+    font-size: 18px;
+    color: #8c9e8e;
+}
+
+.as-sim-shift {
+    margin-left: auto;
+    text-align: right;
+}
+.as-sim-shift b {
+    display: block;
+    font-size: 16px;
+    font-weight: 800;
+}
+.as-sim-shift small {
+    font-size: 11.5px;
+}
+
+.as-mitigation-box {
+    background: #fafbfa;
+    border-left: 3px solid #2f6b45;
+    padding: 9px 12px;
+    font-size: 12.5px;
+    border-radius: 0 8px 8px 0;
+}
+.as-mitigation-box strong {
+    display: block;
+    font-size: 11px;
+    text-transform: uppercase;
+    color: #204d30;
+    margin-bottom: 2px;
+}
+.as-mitigation-box p {
+    margin: 0;
+    color: #2b3b2d;
+    line-height: 1.4;
+}
+
+/* Feature 4: Sowing Advisor */
+.as-sowing-grid {
+    display: grid;
+    grid-template-columns: minmax(280px, 1fr) minmax(320px, 1.25fr);
+    gap: 16px;
+}
+@media (max-width: 820px) {
+    .as-sowing-grid { grid-template-columns: 1fr; }
+}
+.as-sowing-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+.as-sowing-pill-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.as-crop-indicator {
+    font-size: 12px;
+    font-weight: 700;
+    color: #4a5c4d;
+}
+.as-sowing-stat-item {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding-bottom: 8px;
+    border-bottom: 1px dashed #e2e8df;
+}
+.as-sowing-stat-item small {
+    font-size: 11px;
+    text-transform: uppercase;
+    color: #6a7c6c;
+}
+.as-sowing-stat-item strong {
+    font-size: 15px;
+    color: #1a4228;
+}
+.as-cutoff-text {
+    font-size: 14px;
+    font-weight: 750;
+    color: #b94025;
+}
+.as-varieties-list small {
+    display: block;
+    font-size: 11px;
+    text-transform: uppercase;
+    color: #6a7c6c;
+    margin-bottom: 6px;
+}
+.as-var-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+.as-tag-var {
+    font-size: 11.5px;
+    font-weight: 650;
+    background: #edf3eb;
+    color: #1f4a2d;
+    padding: 3px 8px;
+    border-radius: 6px;
+}
+.as-delay-summary-box {
+    display: flex;
+    gap: 16px;
+    padding: 12px;
+    background: #f7faf6;
+    border-radius: 10px;
+    margin: 14px 0 10px;
+}
+.as-delay-kpi small {
+    display: block;
+    font-size: 11px;
+    color: #6a7c6c;
+    text-transform: uppercase;
+}
+.as-delay-kpi span {
+    font-size: 16px;
+    font-weight: 800;
+}
+.as-penalty-red { color: #b93434; }
+.as-penalty-green { color: #23683a; }
+.as-sowing-advice {
+    background: #fafbfa;
+    border-left: 3px solid #23683a;
+    padding: 8px 12px;
+    border-radius: 0 8px 8px 0;
+    font-size: 12.5px;
+}
+.as-sowing-advice strong {
+    display: block;
+    font-size: 11px;
+    text-transform: uppercase;
+    color: #1f4a2d;
+    margin-bottom: 2px;
+}
+.as-sowing-advice p {
+    margin: 0;
+    color: #2c3a2e;
+    line-height: 1.4;
+}
+
+/* Feature 5: Fertilizer & Soil Health Saver */
+.as-fert-grid {
+    display: grid;
+    grid-template-columns: minmax(280px, 1fr) minmax(320px, 1.2fr);
+    gap: 16px;
+}
+@media (max-width: 820px) {
+    .as-fert-grid { grid-template-columns: 1fr; }
+}
+.as-fert-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+.as-soil-status-tag {
+    font-size: 11.5px;
+    font-weight: 750;
+    padding: 3px 8px;
+    border-radius: 6px;
+    background: #f3f7f2;
+    color: #1a4228;
+}
+.as-soil-ph-badge {
+    font-size: 11.5px;
+    font-weight: 700;
+    background: #eef3eb;
+    color: #3b503e;
+    padding: 3px 8px;
+    border-radius: 6px;
+}
+.as-soil-props {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+.as-soil-prop-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12.5px;
+    color: #495a4c;
+    border-bottom: 1px dashed #e8eee5;
+    padding-bottom: 4px;
+}
+.as-soil-prop-row b {
+    color: #182419;
+}
+.as-amendment-box {
+    background: #fafbfa;
+    border-left: 3px solid #b97a22;
+    padding: 8px 12px;
+    border-radius: 0 8px 8px 0;
+    font-size: 12.5px;
+}
+.as-amendment-box strong {
+    display: block;
+    font-size: 11px;
+    text-transform: uppercase;
+    color: #83520e;
+    margin-bottom: 2px;
+}
+.as-amendment-box p {
+    margin: 0;
+    color: #2b392d;
+    line-height: 1.4;
+}
+.as-npk-boxes {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin: 12px 0;
+}
+.as-npk-col {
+    background: #f4f8f3;
+    border: 1px solid #dce8db;
+    border-radius: 8px;
+    text-align: center;
+    padding: 10px 6px;
+}
+.as-npk-val {
+    display: block;
+    font-size: 19px;
+    font-weight: 850;
+    color: #1a4d2c;
+}
+.as-npk-col small {
+    font-size: 11px;
+    color: #5d7060;
+    font-weight: 650;
+}
+.as-savings-banner {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    background: #eaf5ec;
+    border: 1px solid #c8e4cd;
+    border-radius: 10px;
+    padding: 10px 14px;
+    margin-bottom: 10px;
+}
+.as-savings-icon {
+    font-size: 24px;
+}
+.as-savings-banner b {
+    font-size: 13.5px;
+    color: #144924;
+}
+.as-savings-banner p {
+    margin: 2px 0 0;
+    font-size: 11.5px;
+    color: #284c31;
+    line-height: 1.35;
+}
+.as-fym-note {
+    font-size: 12px;
+    color: #556658;
+    line-height: 1.4;
 }
 `;

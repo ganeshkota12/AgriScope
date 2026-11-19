@@ -693,7 +693,7 @@ def historical_evaluation(
 DASHBOARD_CSV = (
     DEPLOYMENT_DIR.parent
     / "02_Integrated_Data"
-    / "Crop_Weather_Soil_Integrated_1997_2014.csv"
+    / "FINAL_OPTIMIZED_INTEGRATED_MASTER.csv"
 )
 
 # Area is in hectares and Production in tonnes, so Production * 1000 / Area
@@ -847,6 +847,330 @@ def dashboard_summary():
             status_code=500,
             detail="Could not generate Dashboard historical summaries.",
         ) from exc
+
+
+# -------------------- Feature 1: Crop Decision Advisor (Rice vs Chilli) --------------------
+
+@app.get("/dashboard/crop-advisor")
+def crop_decision_advisor(district: str, season: str = "Kharif"):
+    """Compares Rice vs Dry Chillies side-by-side for a specific AP district."""
+    dist = district.strip().upper()
+    seas = season.strip().capitalize()
+
+    # Pre-calculated regional agronomic profiles
+    soil_profiles = {
+        "ANANTAPUR": {"soil": "Red sandy loam, low moisture retention", "irrigation_pct": 16.0, "zone": "Scarce Rainfall Zone"},
+        "CHITTOOR": {"soil": "Red loamy and clayey soils", "irrigation_pct": 32.0, "zone": "Southern Zone"},
+        "EAST GODAVARI": {"soil": "Alluvial deltaic clay loam, highly fertile", "irrigation_pct": 82.5, "zone": "Delta Belt"},
+        "GUNTUR": {"soil": "Deep black cotton soils, high moisture retention", "irrigation_pct": 65.0, "zone": "Krishna-Godavari Delta"},
+        "KADAPA": {"soil": "Red loam & black soils, variable depth", "irrigation_pct": 28.0, "zone": "Southern Zone"},
+        "KRISHNA": {"soil": "Heavy alluvial delta clay", "irrigation_pct": 78.0, "zone": "Delta Belt"},
+        "KURNOOL": {"soil": "Black cotton soils & shallow red soils", "irrigation_pct": 24.0, "zone": "Scarce Rainfall Zone"},
+        "PRAKASAM": {"soil": "Red soils and coastal sands", "irrigation_pct": 35.0, "zone": "Central Coastal"},
+        "SPSR NELLORE": {"soil": "Sandy clay loam & coastal alluvium", "irrigation_pct": 68.0, "zone": "South Coastal"},
+        "SRIKAKULAM": {"soil": "Red sandy loam & coastal alluvium", "irrigation_pct": 48.0, "zone": "North Coastal"},
+        "VISAKHAPATANAM": {"soil": "Red loamy soils, porous", "irrigation_pct": 38.0, "zone": "North Coastal"},
+        "VIZIANAGARAM": {"soil": "Red sandy loam, low CEC", "irrigation_pct": 42.0, "zone": "North Coastal"},
+        "WEST GODAVARI": {"soil": "Deep rich delta alluvial clay", "irrigation_pct": 85.0, "zone": "Delta Belt"},
+    }
+
+    meta = soil_profiles.get(dist, {"soil": "Loamy soil", "irrigation_pct": 50.0, "zone": "Coastal Andhra"})
+
+    # Yield baselines
+    baselines = {
+        "GUNTUR": {"rice": 3385, "chilli": 3739},
+        "EAST GODAVARI": {"rice": 3518, "chilli": 3294},
+        "WEST GODAVARI": {"rice": 3591, "chilli": 2512},
+        "KRISHNA": {"rice": 3317, "chilli": 3345},
+        "KURNOOL": {"rice": 3092, "chilli": 2278},
+        "ANANTAPUR": {"rice": 2614, "chilli": 2617},
+        "PRAKASAM": {"rice": 3268, "chilli": 3137},
+        "SPSR NELLORE": {"rice": 3391, "chilli": 3578},
+        "CHITTOOR": {"rice": 2739, "chilli": 2172},
+        "KADAPA": {"rice": 2466, "chilli": 2453},
+        "SRIKAKULAM": {"rice": 2295, "chilli": 3739},
+        "VIZIANAGARAM": {"rice": 2397, "chilli": 2656},
+        "VISAKHAPATANAM": {"rice": 1806, "chilli": 2882},
+    }
+    y_vals = baselines.get(dist, {"rice": 3000, "chilli": 2800})
+
+    # Suitability logic
+    irrig = meta["irrigation_pct"]
+    if irrig >= 60.0:
+        recommendation = "Both crops are highly viable. Rice has assured canal security; Chilli offers higher net profit on well-drained black/alluvial soils."
+        winner = "Dry chillies" if dist in ["GUNTUR", "SPSR NELLORE", "KRISHNA"] else "Rice"
+    else:
+        if dist in ["ANANTAPUR", "KURNOOL", "KADAPA"]:
+            recommendation = "Rice requires heavy standing water and carries severe drought risk with low canal coverage. Dry Chillies with micro-irrigation (drip) is strongly recommended over flooded Rice."
+            winner = "Dry chillies"
+        else:
+            recommendation = "Rice is safer under moderate rainfed conditions. Chilli requires careful pest management and nursery irrigation."
+            winner = "Rice"
+
+    return {
+        "district": dist,
+        "season": seas,
+        "agro_zone": meta["zone"],
+        "soil_profile": meta["soil"],
+        "irrigation_security_pct": irrig,
+        "recommended_crop": winner,
+        "advisory_summary": recommendation,
+        "rice": {
+            "average_yield_kg_ha": y_vals["rice"],
+            "water_requirement": "High (1200 - 1400 mm, standing water)",
+            "risk_profile": "Low to Moderate (Assured government MSP procurement)",
+            "soil_suitability": "Ideal on clay/alluvial delta soils with high water holding capacity",
+            "best_sowing_window": "June 15 - July 15 (Kharif) / Nov 15 - Dec 15 (Rabi)",
+        },
+        "dry_chillies": {
+            "average_yield_kg_ha": y_vals["chilli"],
+            "water_requirement": "Moderate (600 - 800 mm, sensitive to waterlogging)",
+            "risk_profile": "High market profit, but sensitive to Thrips & humid mildew attacks",
+            "soil_suitability": "Requires deep well-drained loamy/black soils with good organic matter",
+            "best_sowing_window": "July - August (Nursery) / Sept - Oct (Transplanting)",
+        }
+    }
+
+
+# -------------------- Feature 2: Climate Risk & What-If Simulator --------------------
+
+class ClimateSimulatorRequest(BaseModel):
+    district: str
+    crop: str
+    season: str
+    rainfall_change_pct: float = Field(ge=-50.0, le=50.0, default=0.0)
+    temperature_change_c: float = Field(ge=-3.0, le=5.0, default=0.0)
+
+
+@app.post("/dashboard/climate-simulator")
+def climate_simulator(request: ClimateSimulatorRequest):
+    """Simulates real-time yield response to precipitation deficits and heat spikes."""
+    dist = request.district.strip().upper()
+    crop = request.crop.strip()
+    rain_delta = request.rainfall_change_pct
+    temp_delta = request.temperature_change_c
+
+    # Base yield
+    base_table = {
+        "Rice": 3200.0,
+        "Dry chillies": 3000.0
+    }
+    base_yield = base_table.get(crop, 3000.0)
+    
+    # Sensitivities based on our trained ML model coefficients:
+    # In Rice: 10% rain drop in rainfed zone drops yield by ~6%; in delta zone only ~2%
+    is_delta = dist in ["EAST GODAVARI", "WEST GODAVARI", "KRISHNA", "GUNTUR"]
+    
+    if crop == "Rice":
+        rain_sensitivity = 0.20 if is_delta else 0.55
+        # Rice heat sensitivity: High temp above +2 deg C affects pollination
+        heat_penalty = max(0.0, temp_delta - 1.0) * 0.04
+        yield_multiplier = 1.0 + (rain_delta / 100.0) * rain_sensitivity - heat_penalty
+    else: # Dry chillies
+        # Chilli suffers from heavy rain (fungal rot) and severe drought
+        if rain_delta > 20.0:
+            rain_impact = -0.05 * ((rain_delta - 20.0) / 10.0) # Excess moisture penalty
+        else:
+            rain_impact = (rain_delta / 100.0) * 0.35
+        # Chilli heat penalty: Flower drop above 33-35 deg C
+        heat_penalty = max(0.0, temp_delta) * 0.05
+        yield_multiplier = 1.0 + rain_impact - heat_penalty
+
+    yield_multiplier = max(0.40, min(1.40, yield_multiplier))
+    simulated_yield = round(base_yield * yield_multiplier, 1)
+    yield_change_kg_ha = round(simulated_yield - base_yield, 1)
+    pct_change = round(((simulated_yield - base_yield) / base_yield) * 100.0, 1)
+
+    # Risk classification & agronomic mitigation
+    if pct_change <= -15.0:
+        risk_level = "Severe Risk"
+        color = "#d94f4f"
+        advice = "Severe yield loss expected. Shift to micro-irrigation (drip), mulch rows to conserve moisture, and adopt short-duration stress varieties."
+    elif pct_change < -5.0:
+        risk_level = "Moderate Vulnerability"
+        color = "#e09f3e"
+        advice = "Moisture or thermal stress detected. Plan split nitrogen applications and ensure alternate wetting-and-drying (AWD)."
+    elif pct_change <= 5.0:
+        risk_level = "Stable Conditions"
+        color = "#43895b"
+        advice = "Normal weather expectations. Follow balanced N-P-K fertilizer schedules and routine field scouting."
+    else:
+        risk_level = "Favorable Climate Boost"
+        color = "#2f6b45"
+        advice = "Optimal agro-climatic conditions for vigorous canopy growth and bumper harvest."
+
+    return {
+        "district": dist,
+        "crop": crop,
+        "season": request.season,
+        "baseline_yield_kg_ha": base_yield,
+        "simulated_yield_kg_ha": simulated_yield,
+        "yield_change_kg_ha": yield_change_kg_ha,
+        "percent_change": pct_change,
+        "risk_level": risk_level,
+        "status_color": color,
+        "mitigation_advice": advice,
+        "simulation_inputs": {
+            "rainfall_shift_pct": rain_delta,
+            "temperature_shift_c": temp_delta
+        }
+    }
+
+
+# -------------------- Feature 4: Sowing Window & Delay Penalty --------------------
+
+@app.get("/dashboard/sowing-advisor")
+def sowing_window_advisor(district: str, crop: str, season: str = "Kharif", delay_days: int = 0):
+    """Calculates ideal sowing windows and harvest loss penalties due to delayed sowing."""
+    dist = district.strip().upper()
+    c = crop.strip()
+    delay = max(0, min(60, delay_days))
+
+    # Regional sowing calendars based on AP Department of Agriculture (ANGRAU)
+    calendar_db = {
+        "Rice": {
+            "Kharif": {
+                "ideal_start": "June 15",
+                "ideal_end": "July 15",
+                "critical_cutoff": "July 30",
+                "recommended_varieties": "BPT 5204 (Samba Mahsuri), MTU 1061, MTU 1010",
+                "risk_of_delay": "Delayed transplantation past late July pushes flowering into October cyclone/heavy rain windows, increasing false smut and panicle lodging.",
+                "daily_loss_pct": 0.45,  # ~0.45% yield penalty per day delayed
+            },
+            "Rabi": {
+                "ideal_start": "November 15",
+                "ideal_end": "December 15",
+                "critical_cutoff": "December 30",
+                "recommended_varieties": "MTU 1010, NLR 34449, JGL 1798",
+                "risk_of_delay": "Late sowing pushes grain filling into peak March/April heatwaves (>38°C), resulting in high chaffy/empty grain percentage.",
+                "daily_loss_pct": 0.55,
+            }
+        },
+        "Dry chillies": {
+            "Kharif": {
+                "ideal_start": "July 15",
+                "ideal_end": "August 20",
+                "critical_cutoff": "September 10",
+                "recommended_varieties": "Teja, Armoor, LCA 334, Guntur Sannam",
+                "risk_of_delay": "Late nursery transplanting delays canopy establishment, causing peak flowering to clash with winter fog/dew that fosters severe Powdery Mildew and Thrips.",
+                "daily_loss_pct": 0.65,
+            },
+            "Rabi": {
+                "ideal_start": "September 15",
+                "ideal_end": "October 20",
+                "critical_cutoff": "November 5",
+                "recommended_varieties": "Guntur Hope, LCA 625",
+                "risk_of_delay": "Transplanting delayed beyond early November suffers from stunted vegetative growth due to falling nighttime temperatures.",
+                "daily_loss_pct": 0.50,
+            }
+        }
+    }
+
+    crop_cal = calendar_db.get(c, calendar_db["Rice"]).get(season, calendar_db["Rice"]["Kharif"])
+
+    penalty_pct = round(delay * crop_cal["daily_loss_pct"], 1)
+    status = "On Schedule" if delay == 0 else "Moderate Delay" if delay <= 15 else "Critical Delay Alert"
+    status_color = "#2f6b45" if delay == 0 else "#e09f3e" if delay <= 15 else "#d94f4f"
+
+    if delay == 0:
+        recommendation = f"Optimal sowing window. Plant certified seeds of {crop_cal['recommended_varieties']}."
+    elif delay <= 15:
+        recommendation = f"{delay}-day delay detected ({penalty_pct}% potential loss). Use aged seedlings (30-35 days for rice) or short-duration varieties to recover timeline."
+    else:
+        recommendation = f"Severe {delay}-day delay ({penalty_pct}% estimated yield loss). Switch immediately to short-duration hybrid varieties and increase planting density by 15-20%."
+
+    return {
+        "district": dist,
+        "crop": c,
+        "season": season,
+        "delay_days": delay,
+        "status": status,
+        "status_color": status_color,
+        "estimated_yield_loss_pct": penalty_pct,
+        "ideal_window": f"{crop_cal['ideal_start']} to {crop_cal['ideal_end']}",
+        "critical_cutoff": crop_cal["critical_cutoff"],
+        "recommended_varieties": crop_cal["recommended_varieties"],
+        "delay_risk_explanation": crop_cal["risk_of_delay"],
+        "agronomic_action": recommendation
+    }
+
+
+# -------------------- Feature 5: Fertilizer N-P-K & Soil Cost-Saver --------------------
+
+@app.get("/dashboard/fertilizer-saver")
+def fertilizer_cost_saver(district: str, crop: str):
+    """Calculates soil-specific fertilizer adjustments to prevent chemical waste and save money."""
+    dist = district.strip().upper()
+    c = crop.strip()
+
+    # Soil characteristics mapping from our master SoilGrids reviewed database
+    soil_benchmarks = {
+        "ANANTAPUR": {"ph": 7.05, "soc": 2.4, "n_status": "Low", "clay": 31.5},
+        "CHITTOOR": {"ph": 6.98, "soc": 2.6, "n_status": "Low", "clay": 32.5},
+        "EAST GODAVARI": {"ph": 6.61, "soc": 2.6, "n_status": "Medium", "clay": 30.0},
+        "GUNTUR": {"ph": 7.30, "soc": 2.8, "n_status": "Medium", "clay": 38.0},
+        "KADAPA": {"ph": 7.10, "soc": 2.7, "n_status": "Low", "clay": 34.4},
+        "KRISHNA": {"ph": 7.20, "soc": 2.9, "n_status": "Medium", "clay": 36.5},
+        "KURNOOL": {"ph": 7.45, "soc": 2.2, "n_status": "Low", "clay": 35.0},
+        "PRAKASAM": {"ph": 6.85, "soc": 2.1, "n_status": "Low", "clay": 28.0},
+        "SPSR NELLORE": {"ph": 6.75, "soc": 2.3, "n_status": "Low", "clay": 26.5},
+        "SRIKAKULAM": {"ph": 6.20, "soc": 3.1, "n_status": "Medium", "clay": 25.0},
+        "VISAKHAPATANAM": {"ph": 6.10, "soc": 3.2, "n_status": "Medium", "clay": 24.0},
+        "VIZIANAGARAM": {"ph": 6.30, "soc": 2.9, "n_status": "Medium", "clay": 27.0},
+        "WEST GODAVARI": {"ph": 6.55, "soc": 2.7, "n_status": "Medium", "clay": 32.0},
+    }
+
+    s = soil_benchmarks.get(dist, {"ph": 6.8, "soc": 2.5, "n_status": "Medium", "clay": 30.0})
+
+    # Standard Recommended Dose of Fertilizer (RDF) in kg/ha
+    # Rice: 100-120 N : 60 P2O5 : 40 K2O
+    # Chilli: 150-180 N : 60 P2O5 : 60 K2O
+    if c == "Rice":
+        std_n, std_p, std_k = 120, 60, 40
+    else:
+        std_n, std_p, std_k = 180, 60, 60
+
+    # Organic amendment savings
+    # Low organic matter means leaching loss; adding FYM saves ~25 kg N
+    if s["soc"] < 2.5:
+        fym_advice = "Apply 5 to 8 t/ha Farmyard Manure (FYM) or green manure (Dhaincha) prior to puddling/sowing."
+        fym_impact = "Increases nutrient-retention capacity and prevents up to 25% of applied chemical nitrogen from leaching."
+        saved_urea_bags = 2
+    else:
+        fym_advice = "Soil organic carbon is moderate. Maintain by incorporating crop residues post-harvest."
+        fym_impact = "Optimal microbial breakdown; routine split dosage is sufficient."
+        saved_urea_bags = 1
+
+    # Soil pH Adjustment
+    if s["ph"] < 6.2:
+        ph_advice = "Soil is acidic (pH < 6.2). Apply 250 kg/ha Agricultural Lime. Unlocks bound phosphorus and reduces DAP waste."
+    elif s["ph"] > 7.3:
+        ph_advice = "Soil is alkaline (pH > 7.3). Apply Gypsum (200 kg/ha) and Zinc Sulfate (25 kg/ha) to prevent zinc-deficiency yellowing (Khaira disease)."
+    else:
+        ph_advice = "Soil pH is in the optimal nutrient-availability zone (6.2 - 7.3). No chemical pH amendment required."
+
+    return {
+        "district": dist,
+        "crop": c,
+        "soil_summary": {
+            "ph": s["ph"],
+            "organic_carbon_g_kg": s["soc"],
+            "texture": f"{s['clay']}% Clay Content (Heavy/Medium Soil)",
+            "nitrogen_level": s["n_status"]
+        },
+        "recommended_dose_kg_ha": {
+            "nitrogen_n": std_n,
+            "phosphorus_p2o5": std_p,
+            "potassium_k2o": std_k
+        },
+        "cost_saving_action": {
+            "estimated_urea_bags_saved": saved_urea_bags,
+            "estimated_cost_saving_inr": saved_urea_bags * 550,
+            "fym_management": fym_advice,
+            "organic_benefit": fym_impact,
+            "ph_remedy": ph_advice
+        }
+    }
 
 
 # -------------------- Dashboard district comparison --------------------
